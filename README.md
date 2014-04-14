@@ -1,3 +1,5 @@
+#### WORK IN PROGESS
+
 # Simple CRUD : scala / play / mongo / angular
 
 This app aims to show how to design a simple CRUD application using Play framework (and Scala) for a REST API backend and AngularJS for the frontend.
@@ -11,10 +13,17 @@ This project is using a lot of tools. All should be installed before starting to
 - [Scala 2.10.0](http://www.scala-lang.org/)
 - [Play framework 2.2.1](http://www.playframework.com/)
 - [nodejs 0.10.26](http://nodejs.org/) and npm 1.3.11
-- [bower 1.3.2](http://bower.io/) : `sudo npm install -g bower`
-- [grunt-cli 0.1.13](http://gruntjs.com/) : `sudo npm install -g grunt-cli`
+- [bower 1.3.2](http://bower.io/) (`sudo npm install -g bower`)
+- [grunt-cli 0.1.13](http://gruntjs.com/) (`sudo npm install -g grunt-cli`)
 
-Feel free to send a pull request to upgrade versions...
+Versions of used libraries :
+
+- [ReactiveMongo 0.10.0](http://reactivemongo.org/)
+- [AngularJS 1.2.16](http://angularjs.org/)
+- [Bootstrap 3.1.1](http://getbootstrap.com/)
+
+Feel free to send a pull request to upgrade versions...  
+(I will try to stay as up to date as possible)
 
 ## Getting started
 
