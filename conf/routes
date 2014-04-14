@@ -6,10 +6,10 @@
 GET     /                           controllers.Application.index
 
 GET     /api/users1                 controllers.Users1.all
-POST    /api/users1                 controllers.Users1.create
-GET     /api/users1/:id             controllers.Users1.show(id: String)
-PUT     /api/users1/:id             controllers.Users1.update(id: String)
-DELETE  /api/users1/:id             controllers.Users1.delete(id: String)
+#POST    /api/users1                 controllers.Users1.create
+#GET     /api/users1/:id             controllers.Users1.show(id: String)
+#PUT     /api/users1/:id             controllers.Users1.update(id: String)
+#DELETE  /api/users1/:id             controllers.Users1.delete(id: String)
 
 GET     /api/users2                 controllers.Users2.all
 POST    /api/users2                 controllers.Users2.create
