@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h3>Person modal!</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input ng-if="edit" type="text" class="form-control" id="name" placeholder="Name" ng-model="elt.name">
+                <p ng-if="!edit" class="form-control-static">{{elt.name}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastname" class="col-sm-2 control-label">Bio</label>
+            <div class="col-sm-10">
+                <textarea ng-if="edit" class="form-control" id="bio" placeholder="Bio" ng-model="elt.bio" rows="3"></textarea>
+                <p ng-if="!edit" class="form-control-static">{{elt.bio}}</p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-if="action === 'create'" ng-click="create()">Create</button>
+    <button class="btn btn-success" ng-if="action === 'edit'" ng-click="update()">Save</button>
+    <button class="btn btn-danger" ng-if="action === 'delete'" ng-click="delete()">DELETE</button>
+    <button class="btn btn-primary" ng-if="action === 'show'" ng-click="ok()">OK</button>
+</div>

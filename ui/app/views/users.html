@@ -1,0 +1,28 @@
+<div class="blog-header">
+    <h1 class="blog-title">Users</h1>
+    <p class="lead blog-description">Registred users in platform</p>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <button type="button" class="btn btn-success" ng-click="create()"><i class="glyphicon glyphicon-plus-sign"></i> Add</button>
+        <table class="table table-striped">
+            <thead>
+                <tr><th>name</th><th>bio</th><th>actions</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="elt in elts">
+                    <td>{{elt.name}}</td>
+                    <td>{{elt.bio}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" ng-click="show(elt)"><i class="glyphicon glyphicon-search"></i></button>
+                        <button type="button" class="btn btn-warning" ng-click="edit(elt)"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button type="button" class="btn btn-danger" ng-click="delete(elt)"><i class="glyphicon glyphicon-remove"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /.row -->

@@ -1,0 +1,15 @@
+{
+  "name": "retail-scan",
+  "description": "",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "",
+    "angular-ui-router": "*",
+    "bootstrap": "~3.1.1",
+    "bootstrap-sass": "twbs/bootstrap-sass#~3.1.1",
+    "angular-bootstrap": "~0.10.0"
+  },
+  "devDependencies": {
+    "angular-mocks": ""
+  }
+}
