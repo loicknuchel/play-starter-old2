@@ -19,3 +19,8 @@
 # grunt generated files
 /app/views/index.scala.html
 /public/dist
+
+# intelliJ idea files
+.idea
+/*.iml
+/.idea_modules
