@@ -8,36 +8,33 @@ import play.api.libs.json.Json
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.modules.reactivemongo.MongoController
-import reactivemongo.api.collections.default.BSONCollection
-import reactivemongo.bson.BSONDocument
-import reactivemongo.bson.BSONDocumentIdentity
-import reactivemongo.bson.BSONObjectID
-import reactivemongo.bson.BSONObjectIDIdentity
-import reactivemongo.bson.Producer.nameValue2Producer
 import dao.UserDao
 import models.UserJsonFormat._
 
 object Users1 extends Controller with MongoController {
   implicit val DB = db
-  //def collection = db.collection[BSONCollection]("users")
 
   def all = Action.async { UserDao.all().map { users => Ok(Json.toJson(users)) } }
 
-  /*def create = Action.async(parse.json) { request =>
-    request.body.validate[User].map {
-      user =>
-        collection.insert(user).map {
-          lastError => Created(s"User Created")
-        }
-    }.getOrElse(Future.successful(BadRequest("invalid json")))
+  def create = Action.async(parse.json) { request =>
+    request.body.validate[User]
+      .map { UserDao.insert(_).map { lastError => Created("User Created") } }
+      .getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
   def show(id: String) = Action.async {
-    val futureUser = collection.find(BSONDocument("_id" -> new BSONObjectID(id))).one[User]
-    futureUser.map { user => Ok(Json.toJson(user)) }
+    UserDao.find(id).map { mayBeUser =>
+      mayBeUser
+        .map { user => Ok(Json.toJson(user)) }
+        .getOrElse(NotFound(s"user with id $id not found"))
+    }
   }
+
   def update(id: String) = TODO
+
   def delete(id: String) = Action.async {
-    collection.remove(BSONDocument("_id" -> new BSONObjectID(id))).map(_ => Ok(s"User Deleted")).recover { case _ => InternalServerError }
-  }*/
+    UserDao.delete(id)
+      .map { _ => Ok(s"User Deleted") }
+      .recover { case _ => InternalServerError }
+  }
 }
