@@ -43,3 +43,11 @@ When you develop with this configuration, you should have at least two terminals
 - add a REST api with [play-autosource](https://github.com/mandubian/play-autosource)
 - work with more complex objects (nested objects, arrays, options) & add metadata (createDate...)
 - improve REST apis & UI (pagination, searches...)
+
+## Credits
+
+I take some code & inspiration in various projects and articles. Bests are :
+
+- [Eventual activator](https://github.com/angyjoe/eventual) from Typesafe
+- [Reactive app](https://github.com/sgodbillon/reactivemongo-demo-app) from Stephane Godbillon
+- [JSON Coast-to-Coast Design](http://mandubian.com/2013/01/13/JSON-Coast-to-Coast/) from Mandubian
