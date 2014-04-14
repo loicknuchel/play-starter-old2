@@ -44,10 +44,10 @@ angular.module('simple-crud')
                 }
 
                 $element.prop('indeterminate', false);
-                if (allSet) {
-                    $scope.master = true;
-                } else if (allClear) {
+                if (allClear) {
                     $scope.master = false;
+                } else if (allSet) {
+                    $scope.master = true;
                 } else {
                     $scope.master = false;
                     $element.prop('indeterminate', true);
