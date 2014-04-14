@@ -105,8 +105,8 @@ angular.module('simple-crud')
                 };
                 $scope.update = function () {
                     var elt = $scope.elt;
-                    console.log('PUT '+apiPath+'/'+elt._id.$oid, elt);
-                    $http({method:'PUT', url: apiPath+'/'+elt._id.$oid, data: elt}).then(function(result){
+                    console.log('PUT '+apiPath+'/'+elt.id, elt);
+                    $http({method:'PUT', url: apiPath+'/'+elt.id, data: elt}).then(function(result){
                         onSuccess(result, function(result){
                             angular.copy($scope.elt, $scope.initElt);
                             $modalInstance.close(elt);
@@ -115,8 +115,8 @@ angular.module('simple-crud')
                 };
                 $scope.delete = function () {
                     var elt = $scope.initElt;
-                    console.log('DELETE '+apiPath+'/'+elt._id.$oid);
-                    $http({method:'DELETE', url: apiPath+'/'+elt._id.$oid}).then(function(result){
+                    console.log('DELETE '+apiPath+'/'+elt.id);
+                    $http({method:'DELETE', url: apiPath+'/'+elt.id}).then(function(result){
                         onSuccess(result, function(result){
                             $modalInstance.close(elt);
                         });
@@ -171,7 +171,7 @@ angular.module('simple-crud')
             if(result.status === 200){
                 updateEndpointStatus(endpoints, actions.showAll, status.working);
                 if(result.data.length > 0){
-                    $http({method:'GET', url: apiPath+'/'+result.data[0]._id.$oid}).then(function(result){
+                    $http({method:'GET', url: apiPath+'/'+result.data[0].id}).then(function(result){
                         if(result.status === 200){ updateEndpointStatus(endpoints, actions.show, status.working); }
                         else { updateEndpointStatus(endpoints, actions.show, status.warning); }
                     }, function(error){
@@ -191,13 +191,13 @@ angular.module('simple-crud')
         $http({method: 'POST', url: apiPath, data: elt}).then(function(result){
             if(result.status === 200 || result.status === 201){
                 updateEndpointStatus(endpoints, actions.create, status.working);
-                elt._id = {$oid: result.data._id};
-                if(elt._id.$oid){
+                elt.id = result.data.id;
+                if(elt.id){
                     elt.bio = 'TESTabc';
-                    $http({method:'PUT', url: apiPath+'/'+elt._id.$oid, data: elt}).then(function(result){
+                    $http({method:'PUT', url: apiPath+'/'+elt.id, data: elt}).then(function(result){
                         if(result.status === 200){ updateEndpointStatus(endpoints, actions.update, status.working); }
                         else { updateEndpointStatus(endpoints, actions.update, status.warning); }
-                        $http({method:'DELETE', url: apiPath+'/'+elt._id.$oid}).then(function(result){
+                        $http({method:'DELETE', url: apiPath+'/'+elt.id}).then(function(result){
                             if(result.status === 200){ updateEndpointStatus(endpoints, actions.delete, status.working); }
                             else { updateEndpointStatus(endpoints, actions.delete, status.warning); }
                         }, function(error){
@@ -205,7 +205,7 @@ angular.module('simple-crud')
                         });
                     }, function(error){
                         updateEndpointStatus(endpoints, actions.update, status.error);
-                        $http({method:'DELETE', url: apiPath+'/'+elt._id.$oid}).then(function(result){
+                        $http({method:'DELETE', url: apiPath+'/'+elt.id}).then(function(result){
                             if(result.status === 200){ updateEndpointStatus(endpoints, actions.delete, status.working); }
                             else { updateEndpointStatus(endpoints, actions.delete, status.warning); }
                         }, function(error){

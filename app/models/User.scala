@@ -10,3 +10,13 @@ object UserJsonFormat {
 
   implicit val userFormat = Json.format[User]
 }
+  
+case class UserNoId(
+  name: String,
+  bio: String)
+
+object UserNoIdJsonFormat {
+  import play.api.libs.json.Json
+
+  implicit val userNoIdFormat = Json.format[UserNoId]
+}
