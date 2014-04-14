@@ -13,30 +13,32 @@ angular.module('retail-scan')
     "use strict";
 })
 
-.controller('usersCtrl', function ($scope, $http, $modal) {
+.controller('usersCtrl', function ($scope, $http, $location, $modal) {
     "use strict";
-    var apiPath = '/api/users1';
+    var apiPath = '/api'+$location.path();
     var modalUrl = 'assets/views/userModal.html';
+    var emptyElt = {
+        name: '',
+        bio: ''
+    };
 
-    var actionCreate = 'create', actionShow = 'show', actionEdit = 'edit', actionDelete = 'delete';
+    var actionCreate = 'create', actionShow = 'show', actionUpdate = 'edit', actionDelete = 'delete';
     $scope.elts = [];
+    $scope.apiPath = apiPath;
+    console.log('GET '+apiPath);
     $http({method: 'GET', url: apiPath}).then(function(result){
-        console.log(result.data);
+        console.log('result', result);
         $scope.elts = result.data;
     });
 
     $scope.create = function(){
-        var emptyElt = {
-            name: '',
-            pw: ''
-        };
-        createModal(emptyElt, actionCreate);
+        createModal(angular.copy(emptyElt), actionCreate);
     };
     $scope.show = function(elt){
         createModal(elt, actionShow);
     };
     $scope.edit = function(elt){
-        createModal(elt, actionEdit);
+        createModal(elt, actionUpdate);
     };
     $scope.delete = function(elt){
         createModal(elt, actionDelete);
@@ -49,55 +51,48 @@ angular.module('retail-scan')
                 $scope.initElt = elt;
                 $scope.elt = angular.copy(elt);
                 $scope.action = action;
-                $scope.edit = action === actionCreate || action === actionEdit;
+                $scope.edit = action === actionCreate || action === actionUpdate;
+                var onError = function(error){
+                    console.log('Error', error);
+                    alert('error !');
+                };
+                var onSuccess = function(result, successCB){
+                    console.log('result', result);
+                    if(result.status === 200 || result.status === 201){
+                        successCB(result);
+                    } else {
+                        // TODO add form validation
+                        alert('error !');
+                    }
+                }
 
                 $scope.create = function () {
                     var elt = $scope.elt;
-                    console.log('create elt', elt);
+                    console.log('POST '+apiPath, elt);
                     $http({method: 'POST', url: apiPath, data: elt}).then(function(result){
-                        if(result.status === 200 || result.status === 201){
+                        onSuccess(result, function(result){
                             $modalInstance.close(elt);
-                        } else {
-                            // TODO add form validation
-                            console.log('result', result);
-                            alert('error !');
-                        }
-                    }, function(error){
-                        console.log('Error', error);
-                        alert('error !');
-                    });
+                        });
+                    }, onError);
                 };
                 $scope.update = function () {
                     var elt = $scope.elt;
-                    $http({method:'PUT', url: apiPath+'/'+elt._id.$oid+'/full'}).then(function(result){
-                        console.log('result', result);
-                        if(result.status === 200){
+                    console.log('PUT '+apiPath+'/'+elt._id.$oid, elt);
+                    $http({method:'PUT', url: apiPath+'/'+elt._id.$oid, data: elt}).then(function(result){
+                        onSuccess(result, function(result){
                             angular.copy($scope.elt, $scope.initElt);
-                            $modalInstance.close();
-                        } else {
-                            // TODO add form validation
-                            console.log('result', result);
-                            alert('error !');
-                        }
-                    }, function(error){
-                        console.log('Error', error);
-                        alert('error !');
-                    });
+                            $modalInstance.close(elt);
+                        });
+                    }, onError);
                 };
                 $scope.delete = function () {
                     var elt = $scope.initElt;
+                    console.log('DELETE '+apiPath+'/'+elt._id.$oid);
                     $http({method:'DELETE', url: apiPath+'/'+elt._id.$oid}).then(function(result){
-                        if(result.status === 200){
+                        onSuccess(result, function(result){
                             $modalInstance.close(elt);
-                        } else {
-                            // TODO add form validation
-                            console.log('result', result);
-                            alert('error !');
-                        }
-                    }, function(error){
-                        console.log('Error', error);
-                        alert('error !');
-                    });
+                        });
+                    }, onError);
                 };
                 $scope.ok = function () {
                     $modalInstance.close();
@@ -112,6 +107,8 @@ angular.module('retail-scan')
             if(result){
                 if(action === actionCreate){
                     $scope.elts.push(result);
+                } else if(action === actionUpdate){
+                    // nothing
                 } else if(action === actionDelete){
                     var index = $scope.elts.indexOf(result);
                     if (index > -1) {$scope.elts.splice(index, 1);}

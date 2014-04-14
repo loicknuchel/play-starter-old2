@@ -23,5 +23,10 @@ angular.module('retail-scan').config(function($stateProvider, $urlRouterProvider
         url: '/users1',
         templateUrl: 'assets/views/users.html',
         controller: 'usersCtrl'
+    })
+    .state('root.users2', {
+        url: '/users2',
+        templateUrl: 'assets/views/users.html',
+        controller: 'usersCtrl'
     });
 });

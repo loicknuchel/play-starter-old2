@@ -3,6 +3,7 @@
         <nav class="blog-nav">
             <a class="blog-nav-item" ng-class="{active:isActive('/home')}" ui-sref="root.home">Home</a>
             <a class="blog-nav-item" ng-class="{active:isActive('/users1')}" ui-sref="root.users1">Users 1</a>
+            <a class="blog-nav-item" ng-class="{active:isActive('/users2')}" ui-sref="root.users2">Users 2</a>
         </nav>
     </div>
 </div>
@@ -10,10 +11,3 @@
 <div class="container">
     <ui-view></ui-view>
 </div><!-- /.container -->
-
-<div class="blog-footer">
-    <p>Blog template built for <a href="http://getbootstrap.com">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-    <p>
-        <a href="#">Back to top</a>
-    </p>
-</div>

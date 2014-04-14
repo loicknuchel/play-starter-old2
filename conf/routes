@@ -11,5 +11,11 @@ GET     /api/users1/:id             controllers.Users1.show(id: String)
 PUT     /api/users1/:id             controllers.Users1.update(id: String)
 DELETE  /api/users1/:id             controllers.Users1.delete(id: String)
 
+GET     /api/users2                 controllers.Users2.all
+POST    /api/users2                 controllers.Users2.create
+GET     /api/users2/:id             controllers.Users2.show(id: String)
+PUT     /api/users2/:id             controllers.Users2.update(id: String)
+DELETE  /api/users2/:id             controllers.Users2.delete(id: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public/dist", file)
