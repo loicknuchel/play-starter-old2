@@ -247,7 +247,7 @@ module.exports = function(grunt) {
         plato : {
             options: {
                 jshint : grunt.file.readJSON('.jshintrc'),
-                    title : 'Retail scan'
+                    title : 'Simple CRUD'
             },
             all : {
                 files: {
