@@ -36,3 +36,10 @@ When you develop with this configuration, you should have at least two terminals
 - Go to folder ui/ and run `grunt dev`. It will launch a watch to sync your frontend files in play.
 - Go to root folder and run `play run`. It will start the play server.
 
+## TODO
+
+- write tests !!! (Scala & AngularJS)
+- finalize scala rest apis (improve actual code, remove deprecated code)
+- add a REST api with [play-autosource](https://github.com/mandubian/play-autosource)
+- work with more complex objects (nested objects, arrays, options) & add metadata (createDate...)
+- improve REST apis & UI (pagination, searches...)
