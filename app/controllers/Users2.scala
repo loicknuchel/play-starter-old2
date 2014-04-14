@@ -54,10 +54,6 @@ object Users2 extends Controller {
 
   val outputPerson = 
     (__ \ '_id).json.prune
-
-  /** no need to always use Json combinators or transformers, sometimes stay simple */
-  def resOK(data: JsValue) = Json.obj("res" -> "OK") ++ Json.obj("data" -> data)
-  def resKO(error: JsValue) = Json.obj("res" -> "KO") ++ Json.obj("error" -> error)
   
   def all = Action.async {
     val cursor = collection.find(BSONDocument(), BSONDocument()).cursor[JsValue]
@@ -69,13 +65,13 @@ object Users2 extends Controller {
     request.body.transform(validatePerson andThen addMongoId).map{ jsobj => 
       Async{
         collection.insert(jsobj).map{ p => 
-          Ok( resOK(jsobj.transform(fromObjectId).get) )
+          Ok( jsobj.transform(fromObjectId).get )
         }.recover{ case e => 
-          InternalServerError( resKO(JsString("exception %s".format(e.getMessage))) )
+          InternalServerError(JsString("exception %s".format(e.getMessage)))
         }
       }
     }.recoverTotal{ err => 
-      BadRequest( resKO(JsError.toFlatJson(err)) )
+      BadRequest(JsError.toFlatJson(err))
     }
   }
 
@@ -85,9 +81,9 @@ object Users2 extends Controller {
         case None => NotFound(Json.obj("res" -> "KO", "error" -> s"person with ID $id not found"))
         case Some(p) => 
           p.transform(outputPerson).map{ jsonp =>
-            Ok( resOK(Json.obj("person" -> jsonp)) )    
+            Ok(Json.obj("person" -> jsonp))    
           }.recoverTotal{ e =>
-            BadRequest( resKO(JsError.toFlatJson(e)) )    
+            BadRequest(JsError.toFlatJson(e))    
           }
       }
     }
@@ -102,14 +98,14 @@ object Users2 extends Controller {
             updateSelector
           ).map{ lastError => 
             if(lastError.ok)
-              Ok( resOK(Json.obj("msg" -> s"person $id updated")) )
+              Ok(Json.obj("msg" -> s"person $id updated"))
             else     
-              InternalServerError( resKO(JsString("error %s".format(lastError.stringify))) )
+              InternalServerError(JsString("error %s".format(lastError.stringify)))
           }
         }
       }
     }.recoverTotal{ e =>
-      BadRequest( resKO(JsError.toFlatJson(e)) )
+      BadRequest(JsError.toFlatJson(e))
     }
   }
 
@@ -122,14 +118,14 @@ object Users2 extends Controller {
             updateSelector
           ).map{ lastError => 
             if(lastError.ok)
-              Ok( resOK(Json.obj("msg" -> s"person $id updated")) )
+              Ok(Json.obj("msg" -> s"person $id updated"))
             else     
-              InternalServerError( resKO(JsString("error %s".format(lastError.stringify))) )
+              InternalServerError(JsString("error %s".format(lastError.stringify)))
           }
         }
       }
     }.recoverTotal{ e =>
-      BadRequest( resKO(JsError.toFlatJson(e)) )
+      BadRequest(JsError.toFlatJson(e))
     }
   }
 
@@ -137,9 +133,9 @@ object Users2 extends Controller {
     Async {
       collection.remove[JsValue](toObjectId.writes(id)).map{ lastError =>
         if(lastError.ok)
-          Ok( resOK(Json.obj("msg" -> s"person $id deleted")) )
+          Ok(Json.obj("msg" -> s"person $id deleted"))
         else     
-          InternalServerError( resKO(JsString("error %s".format(lastError.stringify))) )
+          InternalServerError(JsString("error %s".format(lastError.stringify)))
       }
     }
   }

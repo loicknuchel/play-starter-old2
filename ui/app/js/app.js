@@ -1,9 +1,9 @@
-angular.module('retail-scan', [
+angular.module('simple-crud', [
     'ui.router',
     'ui.bootstrap']);
 
 
-angular.module('retail-scan').config(function($stateProvider, $urlRouterProvider) {
+angular.module('simple-crud').config(function($stateProvider, $urlRouterProvider) {
     "use strict";
     $urlRouterProvider.otherwise('/home');
 

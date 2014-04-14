@@ -1,11 +1,15 @@
 <div class="blog-header">
     <h1 class="blog-title">Users from {{apiPath}}</h1>
-    <p class="lead blog-description">Registred users in platform</p>
 </div>
 
 <div class="row">
 
     <div class="col-sm-12">
+        <div ng-if="endpoints">
+            Endpoints :<br/>
+            <span ng-repeat="endpoint in endpoints">{{endpoint.name}} : <span class="label {{endpoint.style}}">{{endpoint.status}}</span><span ng-show="!$last"> / </span></span>
+            <br/><br/>
+        </div>
         <button type="button" class="btn btn-success" ng-click="create()"><i class="glyphicon glyphicon-plus-sign"></i> Add</button>
         <table class="table table-striped">
             <thead>

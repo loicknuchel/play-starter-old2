@@ -1,8 +1,8 @@
-describe("Retail scan application", function () {
+describe("Simple crud application", function () {
 
     var scope;
 
-    beforeEach(module('retail-scan'));
+    beforeEach(module('simple-crud'));
 
     // Loads the controllers
     beforeEach(inject(function ($controller, $rootScope) {

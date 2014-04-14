@@ -52,6 +52,7 @@ When you develop with this configuration, you should have at least two terminals
 - add a REST api with [play-autosource](https://github.com/mandubian/play-autosource)
 - work with more complex objects (nested objects, arrays, options) & add metadata (createDate...)
 - improve REST apis & UI (pagination, searches...)
+- add global CRUD actions (delete all / delete selected...)
 
 ## Credits
 
