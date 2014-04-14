@@ -1,0 +1,21 @@
+*~
+/.settings
+/.target
+/bin
+/logs
+/project/project
+/project/target
+/target
+/ui/.sass-cache
+/ui/.tmp
+/ui/app/bower_components
+/ui/app/css
+/ui/dist
+/ui/node_modules
+/.cache
+/.classpath
+/.project
+
+# grunt generated files
+/app/views/index.scala.html
+/public/dist
