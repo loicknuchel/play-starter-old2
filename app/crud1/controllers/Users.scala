@@ -1,20 +1,22 @@
-package controllers
+package crud1.controllers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import models.User
-import models.UserNoId
+import crud1.models.User
+import crud1.models.UserNoId
 import play.api.libs.json.Json
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.modules.reactivemongo.MongoController
-import dao.UserDao
-import models.UserJsonFormat._
-import models.UserNoIdJsonFormat._
+import crud1.dao.UserDao
+import crud1.models.UserJsonFormat._
+import crud1.models.UserNoIdJsonFormat._
 import reactivemongo.bson.BSONObjectID
-import models.UserNoId
+import crud1.models.UserNoId
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
+import crud1.dao.UserDao
 
-object Users1 extends Controller with MongoController {
+object Users extends Controller with MongoController {
   implicit val DB = db
 
   def all = Action.async { UserDao.all().map { users => Ok(Json.toJson(users)) } }

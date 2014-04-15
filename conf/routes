@@ -5,17 +5,17 @@
 # Home page
 GET     /                           controllers.Application.index
 
-GET     /api/users1                 controllers.Users1.all
-POST    /api/users1                 controllers.Users1.create
-GET     /api/users1/:id             controllers.Users1.show(id: String)
-PUT     /api/users1/:id             controllers.Users1.update(id: String)
-DELETE  /api/users1/:id             controllers.Users1.delete(id: String)
+GET     /api/users1                 crud1.controllers.Users.all
+POST    /api/users1                 crud1.controllers.Users.create
+GET     /api/users1/:id             crud1.controllers.Users.show(id: String)
+PUT     /api/users1/:id             crud1.controllers.Users.update(id: String)
+DELETE  /api/users1/:id             crud1.controllers.Users.delete(id: String)
 
-GET     /api/users2                 controllers.Users2.all
-POST    /api/users2                 controllers.Users2.create
-GET     /api/users2/:id             controllers.Users2.show(id: String)
-PUT     /api/users2/:id             controllers.Users2.update(id: String)
-DELETE  /api/users2/:id             controllers.Users2.delete(id: String)
+GET     /api/users2                 crud2.controllers.Users.all
+POST    /api/users2                 crud2.controllers.Users.create
+GET     /api/users2/:id             crud2.controllers.Users.show(id: String)
+PUT     /api/users2/:id             crud2.controllers.Users.update(id: String)
+DELETE  /api/users2/:id             crud2.controllers.Users.delete(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public/dist", file)

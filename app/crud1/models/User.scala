@@ -1,4 +1,7 @@
-package models
+package crud1.models
+
+import play.api.libs.functional.syntax.functionalCanBuildApplicative
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
 
 case class User(
   id: String,

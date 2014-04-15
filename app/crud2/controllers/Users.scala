@@ -1,4 +1,4 @@
-package controllers
+package crud2.controllers
 
 import play.api._
 import play.api.mvc._
@@ -17,8 +17,10 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.Play.current
 import play.modules.reactivemongo.json.collection.JSONCollection
 import reactivemongo.bson.BSONDocument
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
+import reactivemongo.bson.Producer.nameValue2Producer
 
-object Users2 extends Controller {
+object Users extends Controller {
   val collection = ReactiveMongoPlugin.db.collection[JSONCollection]("users")
 
   /** Full User validator */

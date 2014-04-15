@@ -1,15 +1,16 @@
-package dao
+package crud1.dao
 
-import utils.MongoSuite
+import crud1.utils.MongoSuite
 import com.github.simplyscala.MongodProps
-import reactivemongo.api.{MongoDriver, DB}
+import reactivemongo.api.{ MongoDriver, DB }
 import play.modules.reactivemongo.json.collection.JSONCollection
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import models.User
+import crud1.models.User
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
-import models.UserJsonFormat._
+import crud1.models.UserJsonFormat._
+import crud1.dao.UserDao
 
 class UserDaoTest extends MongoSuite {
   var mongoProps: MongodProps = null

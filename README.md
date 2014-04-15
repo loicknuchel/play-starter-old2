@@ -10,7 +10,7 @@ It uses news tools for productivity such as grunt and bower.
 This project is using a lot of tools. All should be installed before starting to run it.
 
 - [MongoDB 2.4.8](https://www.mongodb.org/)
-- [Scala 2.10.0](http://www.scala-lang.org/)
+- [Scala 2.10.2](http://www.scala-lang.org/)
 - [Play framework 2.2.1](http://www.playframework.com/)
 - [nodejs 0.10.26](http://nodejs.org/) and npm 1.3.11
 - [bower 1.3.2](http://bower.io/) (`sudo npm install -g bower`)

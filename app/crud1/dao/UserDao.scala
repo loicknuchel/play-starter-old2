@@ -1,13 +1,14 @@
-package dao
+package crud1.dao
 
 import scala.concurrent.Future
-import models.User
+import crud1.models.User
 import reactivemongo.api.DB
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.api.libs.json.Json
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import models.UserJsonFormat._
+import crud1.models.UserJsonFormat._
 import reactivemongo.core.commands.LastError
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
 
 object UserDao {
   private val USER_COLECTION_NAME = "users"
