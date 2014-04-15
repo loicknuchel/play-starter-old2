@@ -90,14 +90,12 @@ object Users extends Controller {
   def update(id: String) = Action.async(parse.json) { request =>
     request.body.transform(validateUser4RestrictedUpdate).flatMap { jsobj =>
       jsobj.transform(toMongoUpdate).map { updateSelector =>
-        collection.update(
-          toId.writes(id),
-          updateSelector).map { lastError =>
-            if (lastError.ok)
-              Ok(Json.obj("msg" -> s"User Updated"))
-            else
-              InternalServerError(JsString("error %s".format(lastError.stringify)))
-          }
+        collection.update(toId.writes(id), updateSelector).map { lastError =>
+          if (lastError.ok)
+            Ok(Json.obj("msg" -> s"User Updated"))
+          else
+            InternalServerError(JsString("error %s".format(lastError.stringify)))
+        }
       }
     }.recoverTotal { e =>
       Future.successful(BadRequest(JsError.toFlatJson(e)))
