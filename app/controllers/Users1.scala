@@ -31,15 +31,15 @@ object Users1 extends Controller with MongoController {
     UserDao.find(id).map { mayBeUser =>
       mayBeUser
         .map { user => Ok(Json.toJson(user)) }
-        .getOrElse(NotFound(s"user with id $id not found"))
+        .getOrElse(NotFound(Json.obj("msg" -> s"User with ID $id not found")))
     }
   }
 
-  def update(id: String) = TODO
-
   def delete(id: String) = Action.async {
     UserDao.delete(id)
-      .map { _ => Ok(s"User Deleted") }
+      .map { _ => Ok(Json.obj("msg" -> s"User Deleted")) }
       .recover { case _ => InternalServerError }
   }
+
+  def update(id: String) = TODO
 }

@@ -17,126 +17,88 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.Play.current
 import play.modules.reactivemongo.json.collection.JSONCollection
 import reactivemongo.bson.BSONDocument
-  
+
 object Users2 extends Controller {
   val collection = ReactiveMongoPlugin.db.collection[JSONCollection]("users")
 
-  val objectIdFormat = OFormat[String](
-    (__ \ "$oid").read[String],
-    OWrites[String]{ s => Json.obj( "$oid" -> s ) }
-  )
-
-  /** Full Person validator */
-  val validatePerson: Reads[JsObject] = (
+  /** Full User validator */
+  val validateUser: Reads[JsObject] = (
     (__ \ 'name).json.pickBranch and
-    (__ \ 'bio).json.pickBranch
-  ).reduce
+    (__ \ 'bio).json.pickBranch).reduce
 
-  /** Person validator for restricted update */
+  /** User validator for restricted update */
   val emptyObj = __.json.put(Json.obj())
-  val validatePerson4RestrictedUpdate: Reads[JsObject] = (
+  val validateUser4RestrictedUpdate: Reads[JsObject] = (
     ((__ \ 'name).json.pickBranch or emptyObj) and
-    ((__ \ 'bio).json.pickBranch or emptyObj)
-  ).reduce
+    ((__ \ 'bio).json.pickBranch or emptyObj)).reduce
 
-  /** Writes an ID in Json Extended Notation */
-  val toObjectId = OWrites[String]{ s => Json.obj("_id" -> Json.obj("$oid" -> s)) }
-  val fromObjectId = (__ \ '_id).json.copyFrom( (__ \ '_id \ '$oid).json.pick )
+  /** Writes an String ID in Json Extended Notation */
+  val toId = OWrites[String] { s => Json.obj("id" -> s) }
 
-  /** Generates a new ID and adds it to your JSON using Json extended notation for BSON */
-  val generateId = (__ \ '_id \ '$oid).json.put( JsString(BSONObjectID.generate.stringify) )
+  /** Updates Json by adding metadata fields */
+  val generateId = (__ \ 'id).json.put(JsString(BSONObjectID.generate.stringify))
+  val addMetadata: Reads[JsObject] = __.json.update(generateId)
 
-  /** Updates Json by adding both ID and date */
-  val addMongoId: Reads[JsObject] = __.json.update( generateId )
+  /** don't output the technical mongodb id */
+  val outputUser = (__ \ '_id).json.prune
+  val outputId = (__ \ 'id).json.pick
 
   /** Converts JSON into Mongo update selector by just copying whole object in $set field */
-  val toMongoUpdate = (__ \ '$set).json.copyFrom( __.json.pick )
+  val toMongoUpdate = (__ \ '$set).json.copyFrom(__.json.pick)
 
-  val outputPerson = 
-    (__ \ '_id).json.prune
-  
   def all = Action.async {
     val cursor = collection.find(BSONDocument(), BSONDocument()).cursor[JsValue]
     val futureList = cursor.collect[List]()
-    futureList.map { results => Ok(Json.toJson(results)) }
+    futureList
+      .map { results => results.map { result => result.transform(outputUser).get } }
+      .map { results => Ok(Json.toJson(results)) }
   }
-  
-  def create = Action(parse.json){ request =>
-    request.body.transform(validatePerson andThen addMongoId).map{ jsobj => 
-      Async{
-        collection.insert(jsobj).map{ p => 
-          Ok( jsobj.transform(fromObjectId).get )
-        }.recover{ case e => 
-          InternalServerError(JsString("exception %s".format(e.getMessage)))
-        }
-      }
-    }.recoverTotal{ err => 
-      BadRequest(JsError.toFlatJson(err))
+
+  def create = Action.async(parse.json) { request =>
+    request.body.transform(validateUser andThen addMetadata).map {
+      jsobj =>
+        collection.insert(jsobj)
+          .map { lastError => Created(Json.obj("id" -> jsobj.transform(outputId).get, "msg" -> "User Created")) }
+          .recover { case e => InternalServerError(JsString("exception %s".format(e.getMessage))) }
+    }.recoverTotal {
+      err =>
+        Future.successful(BadRequest(JsError.toFlatJson(err)))
     }
   }
 
-  def show(id: String) = Action{ 
-    Async {
-      collection.find(BSONDocument("_id" -> id)).cursor[JsValue].headOption.map{ 
-        case None => NotFound(Json.obj("res" -> "KO", "error" -> s"person with ID $id not found"))
-        case Some(p) => 
-          p.transform(outputPerson).map{ jsonp =>
-            Ok(Json.obj("person" -> jsonp))    
-          }.recoverTotal{ e =>
-            BadRequest(JsError.toFlatJson(e))    
-          }
-      }
+  def show(id: String) = Action.async {
+    collection.find(BSONDocument("id" -> id)).cursor[JsValue].headOption.map {
+      case None => NotFound(Json.obj("msg" -> s"User with ID $id not found"))
+      case Some(p) =>
+        p.transform(outputUser)
+          .map { user => Ok(user) }
+          .recoverTotal { e => BadRequest(JsError.toFlatJson(e)) }
     }
   }
 
-  def updateFull(id: String) = Action(parse.json){ request =>
-    request.body.transform(validatePerson).flatMap{ jsobj =>
-      jsobj.transform(toMongoUpdate).map{ updateSelector =>
-        Async{
-          collection.update(
-            toObjectId.writes(id),
-            updateSelector
-          ).map{ lastError => 
-            if(lastError.ok)
-              Ok(Json.obj("msg" -> s"person $id updated"))
-            else     
+  def delete(id: String) = Action.async {
+    collection.remove[JsValue](toId.writes(id)).map { lastError =>
+      if (lastError.ok)
+        Ok(Json.obj("msg" -> s"User Deleted"))
+      else
+        InternalServerError(JsString("error %s".format(lastError.stringify)))
+    }
+  }
+
+  def update(id: String) = Action.async(parse.json) { request =>
+    request.body.transform(validateUser4RestrictedUpdate).flatMap { jsobj =>
+      jsobj.transform(toMongoUpdate).map { updateSelector =>
+        collection.update(
+          toId.writes(id),
+          updateSelector).map { lastError =>
+            if (lastError.ok)
+              Ok(Json.obj("msg" -> s"User Updated"))
+            else
               InternalServerError(JsString("error %s".format(lastError.stringify)))
           }
-        }
       }
-    }.recoverTotal{ e =>
-      BadRequest(JsError.toFlatJson(e))
-    }
-  }
-
-  def update(id: String) = Action(parse.json){ request =>
-    request.body.transform(validatePerson4RestrictedUpdate).flatMap{ jsobj =>
-      jsobj.transform(toMongoUpdate).map{ updateSelector =>
-        Async{
-          collection.update(
-            toObjectId.writes(id),
-            updateSelector
-          ).map{ lastError => 
-            if(lastError.ok)
-              Ok(Json.obj("msg" -> s"person $id updated"))
-            else     
-              InternalServerError(JsString("error %s".format(lastError.stringify)))
-          }
-        }
-      }
-    }.recoverTotal{ e =>
-      BadRequest(JsError.toFlatJson(e))
-    }
-  }
-
-  def delete(id: String) = Action{ 
-    Async {
-      collection.remove[JsValue](toObjectId.writes(id)).map{ lastError =>
-        if(lastError.ok)
-          Ok(Json.obj("msg" -> s"person $id deleted"))
-        else     
-          InternalServerError(JsString("error %s".format(lastError.stringify)))
-      }
+    }.recoverTotal { e =>
+      Future.successful(BadRequest(JsError.toFlatJson(e)))
     }
   }
 }
