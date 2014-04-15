@@ -1,9 +1,20 @@
 #### WORK IN PROGESS
 
-# Simple CRUD : scala / play / mongo / angular
+# Simple CRUD : play / mongo / angular
 
 This app aims to show how to design a simple CRUD application using Play framework (and Scala) for a REST API backend and AngularJS for the frontend.
 It uses news tools for productivity such as grunt and bower.
+
+## Screenshots
+
+Home screen :
+![Home](./pics/App_home.png)
+
+List users :
+![List](./pics/CRUD_list.png)
+
+Edit a user :
+![Edit](./pics/CRUD_edit.png)
 
 ## Setup
 
@@ -61,3 +72,4 @@ I take some code & inspiration in various projects and articles. Bests are :
 - [Eventual activator](https://github.com/angyjoe/eventual) from Typesafe
 - [Reactive app](https://github.com/sgodbillon/reactivemongo-demo-app) from Stephane Godbillon
 - [JSON Coast-to-Coast Design](http://mandubian.com/2013/01/13/JSON-Coast-to-Coast/) from Mandubian
+- [angular-play-mongo-sample](https://github.com/loicdescotte/angular-play-mongo-sample) from Loïc Descotte
