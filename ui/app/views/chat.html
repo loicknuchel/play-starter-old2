@@ -1,27 +1,58 @@
 <div class="blog-header">
     <h1 class="blog-title">Chat</h1>
 </div>
+<!--
+Sample chat UI :
+http://bootstraphunter.com/themes/preview/jarvisadmin/2.0/
+http://themes.startbootstrap.com/flex-admin-v1.2/
+-->
 <div class="row">
-    <div class="col-sm-12">
-        <div id="header">
-            Your Name: <input type="text" name="user" id="userField" value="John Doe" ng-model="user" />
-            <select ng-model="currentRoom" ng-change="setCurrentRoom(currentRoom)" 
-                    ng-options="r.name for r in rooms" id="roomSelect"></select>
-        </div>
-
-        <div id="chat">
-            <div class="{{msg.who}} msg" ng-repeat="msg in msgs | limitTo:-4"
-                 ng-class="msg.user === 'Juliet' ? 'juliet' : msg.user !== user ? 'others' : ''">{{msg.time}}<br/>
-                <strong>{{msg.user}} says: </strong>{{msg.text}}<br/>
+    <div class="col-md-4 chat" ng-repeat="chat in chats">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <input type="text" name="user" class="username" id="userField" value="John Doe" ng-model="chat.user" />
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                    <ul class="dropdown-menu slidedown">
+                        <li><a href="#"><span class="glyphicon glyphicon-refresh"></span>Refresh</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-ok-sign"></span>Available</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-remove"></span>Busy</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-time"></span>Away</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-off"></span>Sign Out</a></li>
+                    </ul>
+                </div>
+                <select class="pull-right" ng-model="chat.currentRoom" ng-change="changeRoom(chat)" ng-options="room.name for room in rooms"></select>
             </div>
-        </div>
-
-        <div id="footer">
-            <form ng-submit="submitMsg()">
-                <input type="text" name="chat" id="textField" ng-model="inputText"
-                       placeholder="Say something" class="ng-pristine ng-valid input-block-level" />
-                <input type="button" class="btn btn-primary" id="saySomething" value="Submit" ng-click="submitMsg()" />
-            </form>
+            <div class="panel-body">
+                <ul>
+                    <li class="clearfix" ng-class="{left: $index%2 === 0, right: $index%2 === 1}" ng-repeat="msg in chat.msgs | limitTo:-4">
+                        <span class="chat-img" ng-class="{'pull-left': $index%2 === 0, 'pull-right': $index%2 === 1}">
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" ng-if="$index%2 === 0" />
+                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" ng-if="$index%2 !== 0" />
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                <strong class="primary-font" ng-class="{'pull-right': $index%2 === 1}">{{msg.user}}</strong>
+                                <small class="text-muted" ng-class="{'pull-right': $index%2 === 0}"><span class="glyphicon glyphicon-time"></span>{{msg.time}}</small>
+                            </div>
+                            <p>{{msg.text}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <form ng-submit="submitMsg(chat)">
+                    <div class="input-group">
+                        <input type="text" name="chat" class="form-control input-sm" placeholder="Type your message here..." ng-model="chat.inputText" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

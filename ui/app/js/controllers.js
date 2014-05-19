@@ -226,36 +226,48 @@ angular.module('simple-crud.controllers', [])
 .controller('chatCtrl', function ($scope, $http, chatModel) {
     'use strict';
     $scope.rooms = chatModel.getRooms();
-    $scope.msgs = [];
-    $scope.inputText = "";
-    $scope.user = "Jane Doe #" + Math.floor((Math.random() * 100) + 1);
-    $scope.currentRoom = $scope.rooms[0];
+    $scope.chats = [];
+    for(var i = 0; i < 3; i++){
+        var chat = createChat();
+        listen(chat);
+        $scope.chats.push(chat);
+    }
 
     /** change current room, restart EventSource connection */
-    $scope.setCurrentRoom = function (room) {
-        $scope.currentRoom = room;
-        $scope.chatFeed.close();
-        $scope.msgs = [];
-        $scope.listen();
+    $scope.changeRoom = function(chat){
+        chat.chatFeed.close();
+        chat.msgs = [];
+        listen(chat);
     };
 
     /** posting chat text to server */
-    $scope.submitMsg = function () {
-        $http.post("/chat", { text: $scope.inputText, user: $scope.user,
-                             time: (new Date()).toUTCString(), room: $scope.currentRoom.value });
-        $scope.inputText = "";
-    };
-
-    /** handle incoming messages: add to messages array */
-    $scope.addMsg = function (msg) {
-        $scope.$apply(function () { $scope.msgs.push(JSON.parse(msg.data)); });
+    $scope.submitMsg = function(chat){
+        $http.post("/chat", {
+            text: chat.inputText,
+            user: chat.user,
+            time: (new Date()).toUTCString(),
+            room: chat.currentRoom.value
+        });
+        chat.inputText = "";
     };
 
     /** start listening on messages from selected room */
-    $scope.listen = function () {
-        $scope.chatFeed = new EventSource("/chatFeed/" + $scope.currentRoom.value);
-        $scope.chatFeed.addEventListener("message", $scope.addMsg, false);
-    };
+    function listen(chat){
+        chat.chatFeed = new EventSource("/chatFeed/" + chat.currentRoom.value);
+        chat.chatFeed.addEventListener("message", function(msg){
+            console.log('msg', msg);
+            $scope.$apply(function(){
+                chat.msgs.push(JSON.parse(msg.data));
+            });
+        });
+    }
 
-    $scope.listen();
+    function createChat(){
+        return {
+            msgs: [],
+            inputText: "",
+            user: "Jane Doe #" + Math.floor((Math.random() * 100) + 1),
+            currentRoom: $scope.rooms[0]
+        };
+    }
 });

@@ -1,0 +1,37 @@
+.chat {
+    .panel {
+        .panel-body {
+            overflow-y: scroll;
+            height: 300px;
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                li {
+                    margin-bottom: 10px;
+                    padding-bottom: 5px;
+                    border-bottom: 1px dotted #B3A9A9;
+                }
+                li.left .chat-body {
+                    margin-left: 60px;
+                }
+                li.right .chat-body {
+                    margin-right: 60px;
+                }
+                li .chat-body p {
+                    margin: 0;
+                    color: #777777;
+                }
+            }
+        }
+
+        input.username {
+            width: 150px;
+            color: black;
+        }
+        select {
+            color: black;
+            margin-right: 10px;
+        }
+    }
+}
