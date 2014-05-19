@@ -22,9 +22,9 @@ This project is using a lot of tools. All should be installed before starting to
 
 - [MongoDB 2.4.8](https://www.mongodb.org/)
 - [Scala 2.10.2](http://www.scala-lang.org/)
-- [Play framework 2.2.1](http://www.playframework.com/)
+- [Play framework 2.2.3](http://www.playframework.com/)
 - [nodejs 0.10.26](http://nodejs.org/) and npm 1.3.11
-- [bower 1.3.2](http://bower.io/) (`sudo npm install -g bower`)
+- [bower 1.3.3](http://bower.io/) (`sudo npm install -g bower`)
 - [grunt-cli 0.1.13](http://gruntjs.com/) (`sudo npm install -g grunt-cli`)
 
 Versions of used libraries :
