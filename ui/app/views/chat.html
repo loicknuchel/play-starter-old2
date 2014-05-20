@@ -36,7 +36,7 @@ http://themes.startbootstrap.com/flex-admin-v1.2/
                         <div class="chat-body clearfix">
                             <div class="header">
                                 <strong class="primary-font" ng-class="{'pull-right': $index%2 === 1}">{{msg.user}}</strong>
-                                <small class="text-muted" ng-class="{'pull-right': $index%2 === 0}"><span class="glyphicon glyphicon-time"></span>{{msg.time}}</small>
+                                <small class="text-muted" ng-class="{'pull-right': $index%2 === 0}"><span class="glyphicon glyphicon-time"></span> {{msg.time | fromNow}}</small>
                             </div>
                             <p>{{msg.text}}</p>
                         </div>

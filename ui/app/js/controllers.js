@@ -245,7 +245,7 @@ angular.module('simple-crud.controllers', [])
         $http.post("/chat", {
             text: chat.inputText,
             user: chat.user,
-            time: (new Date()).toUTCString(),
+            time: new Date().getTime(),
             room: chat.currentRoom.value
         });
         chat.inputText = "";

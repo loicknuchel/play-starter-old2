@@ -1,6 +1,11 @@
 angular.module('simple-crud.services', [])
 
 
+.service('momentSrv', function(){
+    // wrap momentjs lib
+    return moment;
+})
+
 .service('chatModel', function(){
     function getRooms(){
         return [
