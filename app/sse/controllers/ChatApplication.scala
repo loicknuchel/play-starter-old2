@@ -8,6 +8,12 @@ import play.api.libs.concurrent.Execution.Implicits._
 
 object ChatApplication extends Controller {
 
+  /** Central hub for distributing chat messages */
+  val (chatOut, chatChannel) = Concurrent.broadcast[JsValue]
+
+  /** Enumeratee for filtering messages based on room */
+  def filter(room: String) = Enumeratee.filter[JsValue] { json: JsValue => (json \ "room").as[String] == room }
+
   /** Controller action serving activity based on room */
   def chatFeed(room: String) = Action { req =>
     println(req.remoteAddress + " - SSE connected")
@@ -21,14 +27,7 @@ object ChatApplication extends Controller {
   /** Controller action for POSTing chat messages */
   def postMessage = Action(parse.json) { req => chatChannel.push(req.body); Ok }
 
-  /** Central hub for distributing chat messages */
-  val (chatOut, chatChannel) = Concurrent.broadcast[JsValue]
-
-  /** Enumeratee for filtering messages based on room */
-  def filter(room: String) = Enumeratee.filter[JsValue] { json: JsValue => (json \ "room").as[String] == room }
-
   /** Enumeratee for detecting disconnect of SSE stream */
-  def connDeathWatch(addr: String): Enumeratee[JsValue, JsValue] =
-    Enumeratee.onIterateeDone { () => println(addr + " - SSE disconnected") }
-  
+  def connDeathWatch(addr: String): Enumeratee[JsValue, JsValue] = Enumeratee.onIterateeDone { () => println(addr + " - SSE disconnected") }
+
 }

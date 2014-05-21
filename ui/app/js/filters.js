@@ -1,4 +1,4 @@
-angular.module('simple-crud.filters', [])
+angular.module('simple-crud')
 
 
 .filter('fromNow', function(momentSrv){

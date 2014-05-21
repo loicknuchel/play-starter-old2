@@ -1,4 +1,4 @@
-angular.module('simple-crud', ['ui.router', 'ui.bootstrap', 'simple-crud.controllers', 'simple-crud.services', 'simple-crud.directives', 'simple-crud.filters'])
+angular.module('simple-crud', ['ui.router', 'ui.bootstrap', 'ngStorage'])
 
 .config(function($stateProvider, $urlRouterProvider) {
     "use strict";

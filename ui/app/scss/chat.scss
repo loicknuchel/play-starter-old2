@@ -35,3 +35,27 @@
         }
     }
 }
+.add-chat {
+    .panel {
+        height: 400px;
+        background: #ddd;
+        cursor: pointer;
+        &:hover {
+            background: #ccc;
+        }
+        &:after {
+            content: "Add new chat";
+            display: block;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            color: #959595;
+            font-size: 2em;
+            top: 50%;
+            margin-top: -0.5em;
+            line-height: 1;
+            height: 1em;
+            font-weight: 100;
+        }
+    }
+}

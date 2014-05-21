@@ -1,4 +1,4 @@
-angular.module('simple-crud.directives', [])
+angular.module('simple-crud')
 
 
 .directive('selectAllCheckbox', function () {
