@@ -47,7 +47,7 @@ angular.module('simple-crud')
         };
         chat.sendMessage = function(){
             if(this.isOpen()){
-                $http.post('/chat/'+this.currentRoom.id+'/post', {
+                $http.post('/api/chat/'+this.currentRoom.id+'/post', {
                     text: this.inputText,
                     user: this.user,
                     time: new Date().getTime()
@@ -63,7 +63,7 @@ angular.module('simple-crud')
         if(chat && !chat.isOpen()){
             chat.currentRoom = room;
             if(room && room.id){
-                chat.chatFeed = new EventSource('/chat/'+room.id+'/feed');
+                chat.chatFeed = new EventSource('/api/chat/'+room.id+'/feed');
                 chat.chatFeed.addEventListener('message', function(result){
                     $rootScope.$apply(function(){
                         chat.receiveMessage(JSON.parse(result.data));
