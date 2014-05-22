@@ -48,10 +48,10 @@ object ChatApplication extends Controller with MongoController {
     val msg: JsObject = req.body.as[JsObject] ++ Json.obj("room" -> room)
     msg.validate[MessageNoId]
       .map { messageNoId => Message(id, messageNoId.room, messageNoId.user, messageNoId.text, messageNoId.time) }
-      .map {
-        MessageDao.insert(_).map { lastError =>
-          chatChannel.push(msg)
-          Created(Json.obj("id" -> id, "msg" -> "User Created"))
+      .map { message =>
+        MessageDao.insert(message).map { lastError =>
+          chatChannel.push(messageFormat.writes(message))
+          Created(Json.obj("id" -> id, "msg" -> "Message Created"))
         }
       }
       .getOrElse(Future.successful(BadRequest("invalid json")))

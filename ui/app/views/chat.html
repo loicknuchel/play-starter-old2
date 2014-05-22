@@ -31,7 +31,7 @@ http://themes.startbootstrap.com/flex-admin-v1.2/
             </div>
             <div class="panel-body">
                 <ul>
-                    <li class="clearfix" ng-class="{left: $index%2 === 0, right: $index%2 === 1}" ng-repeat="msg in chat.msgs | limitTo:-4">
+                    <li class="clearfix" ng-class="{left: $index%2 === 0, right: $index%2 === 1}" ng-repeat="msg in chat.msgs | limitTo:-10">
                         <span class="chat-img" ng-class="{'pull-left': $index%2 === 0, 'pull-right': $index%2 === 1}">
                             <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" ng-if="$index%2 === 0" />
                             <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" ng-if="$index%2 !== 0" />

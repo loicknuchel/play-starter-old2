@@ -25,9 +25,6 @@ angular.module('simple-crud')
     }
 
     function loadChat(chat){
-        delete chat.chatFeed;
-        chat.msgs = [];
-
         chat.isOpen = function(){
             return this.currentRoom && this.chatFeed;
         };
@@ -40,10 +37,16 @@ angular.module('simple-crud')
             if(roomId !== curRoomId){
                 closeChatRoom(this);
                 openChatRoom(this, room);
+                loadOldMessages(this);
             }
         };
         chat.receiveMessage = function(msg){
-            this.msgs.push(msg);
+            if(!_.find(this.msgs, {id: msg.id})){
+                this.msgs.push(msg);
+                this.msgs.sort(function(a, b){
+                    return a.time - b.time;
+                });
+            }
         };
         chat.sendMessage = function(){
             if(this.isOpen()){
@@ -55,6 +58,10 @@ angular.module('simple-crud')
                 this.inputText = '';
             }
         };
+
+        delete chat.chatFeed;
+        //chat.msgs = [];
+        loadOldMessages(chat);
 
         openChatRoom(chat, chat.currentRoom);
     }
@@ -79,6 +86,15 @@ angular.module('simple-crud')
             delete chat.chatFeed;
             chat.currentRoom = null;
             chat.msgs = [];
+        }
+    }
+    function loadOldMessages(chat){
+        if(chat && chat.currentRoom && chat.currentRoom.id){   
+            $http.get('/api/chat/'+chat.currentRoom.id).then(function(result){
+                for(var i in result.data){
+                    chat.receiveMessage(result.data[i]);
+                }
+            });
         }
     }
 
@@ -125,12 +141,7 @@ angular.module('simple-crud')
     /** change current room, restart EventSource connection */
     $scope.changeRoom = function(chat, roomId){
         if(chat){
-            var room = null;
-            for(var i in $scope.rooms){
-                if($scope.rooms[i].id === roomId){
-                    room = $scope.rooms[i];
-                }
-            }
+            var room = _.find($scope.rooms, {id: roomId});
             chat.changeRoom(room);
         }
     };

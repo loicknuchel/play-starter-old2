@@ -10,7 +10,8 @@
     "angular-bootstrap": "~0.10.0",
     "momentjs": "~2.6.0",
     "ngstorage": "~0.3.0",
-    "font-awesome": "~4.1.0"
+    "font-awesome": "~4.1.0",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "angular-mocks": ""
