@@ -1,0 +1,9 @@
+see : http://stackoverflow.com/questions/17068744/scala-paint-example-hub-is-deprecated-use-broadcast
+	http://www.playframework.com/documentation/2.2.3/api/scala/index.html#play.api.libs.iteratee.Concurrent$
+	https://github.com/playframework/playframework/tree/master/samples/scala/websocket-chat
+	http://www.playframework.com/documentation/2.2.x/ScalaWebSockets
+
+Mongo capped collections : https://github.com/mathieuancelin/menhirexpress-devoxxfr14
+
+SSE : http://stackoverflow.com/questions/21766755/server-sent-events-with-angularjs-and-play-framework-keeps-restarting-after-su
+

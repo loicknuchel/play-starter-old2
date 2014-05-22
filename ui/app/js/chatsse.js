@@ -47,13 +47,12 @@ angular.module('simple-crud')
         };
         chat.sendMessage = function(){
             if(this.isOpen()){
-                $http.post("/chat", {
+                $http.post('/chat/'+this.currentRoom.id+'/post', {
                     text: this.inputText,
                     user: this.user,
-                    time: new Date().getTime(),
-                    room: this.currentRoom.id
+                    time: new Date().getTime()
                 });
-                this.inputText = "";
+                this.inputText = '';
             }
         };
 
@@ -64,8 +63,8 @@ angular.module('simple-crud')
         if(chat && !chat.isOpen()){
             chat.currentRoom = room;
             if(room && room.id){
-                chat.chatFeed = new EventSource("/chatFeed/" + room.id);
-                chat.chatFeed.addEventListener("message", function(result){
+                chat.chatFeed = new EventSource('/chat/'+room.id+'/feed');
+                chat.chatFeed.addEventListener('message', function(result){
                     $rootScope.$apply(function(){
                         chat.receiveMessage(JSON.parse(result.data));
                     });
@@ -89,9 +88,9 @@ angular.module('simple-crud')
         },
         createChat: function(){
             var chat = {
-                user: "Jane Doe #" + Math.floor((Math.random() * 100) + 1),
+                user: 'Jane Doe #' + Math.floor((Math.random() * 100) + 1),
                 msgs: [],
-                inputText: "",
+                inputText: '',
                 currentRoom: null
             };
             loadChat(chat);

@@ -17,8 +17,8 @@ GET     /api/users2/:id             crud2.controllers.Users.show(id: String)
 PUT     /api/users2/:id             crud2.controllers.Users.update(id: String)
 DELETE  /api/users2/:id             crud2.controllers.Users.delete(id: String)
 
-GET     /chatFeed/:room             sse.controllers.ChatApplication.chatFeed(room: String)
-POST    /chat                       sse.controllers.ChatApplication.postMessage
+GET     /chat/:room/feed            chatsse.controllers.ChatApplication.chatFeed(room: String)
+POST    /chat/:room/post            chatsse.controllers.ChatApplication.postMessage(room: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public/dist", file)
