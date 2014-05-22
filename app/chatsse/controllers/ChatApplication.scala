@@ -37,28 +37,19 @@ object ChatApplication extends Controller with MongoController {
   }
 
   /** Controller action for POSTing chat messages */
-  def postMessage(room: String) = Action(parse.json) { req =>
-    val msg: JsObject = req.body.as[JsObject] ++ Json.obj("room" -> room)
-    chatChannel.push(msg);
-    Ok
-  }
-
   def postMessageAsync(room: String) = Action.async(parse.json) { req =>
     val id = BSONObjectID.generate.stringify
-    val msg: JsObject = req.body.as[JsObject] ++ Json.obj("room" -> room)
-    msg.validate[MessageNoId]
-      .map { messageNoId => Message(id, messageNoId.room, messageNoId.user, messageNoId.text, messageNoId.time) }
-      .map { message =>
-        MessageDao.insert(message).map { lastError =>
-          chatChannel.push(messageFormat.writes(message))
-          Created(Json.obj("id" -> id, "msg" -> "Message Created"))
-        }
+    val msg: JsObject = req.body.as[JsObject] ++ Json.obj("id" -> id) ++ Json.obj("room" -> room)
+    msg.validate[Message].map { message =>
+      MessageDao.insert(message).map { lastError =>
+        chatChannel.push(messageFormat.writes(message))
+        Created(Json.obj("id" -> message.id, "msg" -> "Message Created"))
       }
-      .getOrElse(Future.successful(BadRequest("invalid json")))
+    }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
+  /** Controller action for GETing chat messages */
   def getMessagesAsync(room: String) = Action.async {
     MessageDao.find(Json.obj("room" -> room)).map { message => Ok(Json.toJson(message)) }
   }
-
 }
