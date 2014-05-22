@@ -44,9 +44,8 @@ object ChatApplication extends Controller with MongoController {
   }
 
   def postMessageAsync(room: String) = Action.async(parse.json) { req =>
-    val msg: JsObject = req.body.as[JsObject] ++ Json.obj("room" -> room)
-
     val id = BSONObjectID.generate.stringify
+    val msg: JsObject = req.body.as[JsObject] ++ Json.obj("room" -> room)
     msg.validate[MessageNoId]
       .map { messageNoId => Message(id, messageNoId.room, messageNoId.user, messageNoId.text, messageNoId.time) }
       .map {
@@ -56,6 +55,10 @@ object ChatApplication extends Controller with MongoController {
         }
       }
       .getOrElse(Future.successful(BadRequest("invalid json")))
+  }
+
+  def getMessagesAsync(room: String) = Action.async {
+    MessageDao.find(Json.obj("room" -> room)).map { message => Ok(Json.toJson(message)) }
   }
 
 }
