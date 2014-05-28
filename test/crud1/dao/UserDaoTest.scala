@@ -1,5 +1,6 @@
 package crud1.dao
 
+import crud.dao.UserDao;
 import crud1.utils.MongoSuite
 import com.github.simplyscala.MongodProps
 import reactivemongo.api.{ MongoDriver, DB }
@@ -10,7 +11,6 @@ import crud1.models.User
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
 import crud1.models.UserJsonFormat._
-import crud1.dao.UserDao
 
 class UserDaoTest extends MongoSuite {
   var mongoProps: MongodProps = null

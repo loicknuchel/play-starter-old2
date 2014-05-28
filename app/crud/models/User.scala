@@ -1,4 +1,4 @@
-package crud1.models
+package crud.models
 
 import play.api.libs.functional.syntax.functionalCanBuildApplicative
 import play.api.libs.functional.syntax.toFunctionalBuilderOps

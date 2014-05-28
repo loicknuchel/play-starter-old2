@@ -64,6 +64,7 @@ When you develop with this configuration, you should have at least two terminals
 - work with more complex objects (nested objects, arrays, options) & add metadata (createDate...)
 - improve REST apis & UI (pagination, searches...)
 - add global CRUD actions (delete all / delete selected...)
+- add authentication and private views
 
 ## Credits
 

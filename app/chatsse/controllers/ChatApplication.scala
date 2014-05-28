@@ -7,9 +7,7 @@ import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
 import reactivemongo.bson.BSONObjectID
 import chatsse.models.Message
-import chatsse.models.MessageNoId
 import chatsse.models.MessageJsonFormat._
-import chatsse.models.MessageNoIdJsonFormat._
 import chatsse.dao.MessageDao
 import play.modules.reactivemongo.MongoController
 import scala.concurrent.Future
