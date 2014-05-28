@@ -64,6 +64,7 @@ When you develop with this configuration, you should have at least two terminals
 - work with more complex objects (nested objects, arrays, options) & add metadata (createDate...)
 - improve REST apis & UI (pagination, searches...)
 - add global CRUD actions (delete all / delete selected...)
+- add authentication and private views
 
 ## Credits
 
@@ -73,3 +74,4 @@ I take some code & inspiration in various projects and articles. Bests are :
 - [Reactive app](https://github.com/sgodbillon/reactivemongo-demo-app) from Stephane Godbillon
 - [JSON Coast-to-Coast Design](http://mandubian.com/2013/01/13/JSON-Coast-to-Coast/) from Mandubian
 - [angular-play-mongo-sample](https://github.com/loicdescotte/angular-play-mongo-sample) from Loïc Descotte
+- [SSE chat](https://github.com/matthiasn/sse-chat/) from Matthias Nehlsen

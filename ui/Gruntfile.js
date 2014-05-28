@@ -200,18 +200,18 @@ module.exports = function(grunt) {
             test : {
                 options: {
                     port: 8887,
-                        base: '<%= assetsDir %>',
-                        keepalive: false,
-                        livereload: false,
-                        open: false
+                    base: '<%= assetsDir %>',
+                    keepalive: false,
+                    livereload: false,
+                    open: false
                 }
             },
             plato : {
                 options: {
                     port: 8889,
-                        base: 'reports/complexity',
-                        keepalive: true,
-                        open: true
+                    base: 'reports/complexity',
+                    keepalive: true,
+                    open: true
                 }
             }
         },
@@ -219,23 +219,23 @@ module.exports = function(grunt) {
             dev_unit: {
                 options: {
                     configFile: 'test/conf/unit-test-conf.js',
-                        background: true,  // The background option will tell grunt to run karma in a child process so it doesn't block subsequent grunt tasks.
-                        singleRun: false,
-                        autoWatch: true,
-                        reporters: ['progress']
+                    background: true,  // The background option will tell grunt to run karma in a child process so it doesn't block subsequent grunt tasks.
+                    singleRun: false,
+                    autoWatch: true,
+                    reporters: ['progress']
                 }
             },
             dist_unit: {
                 options: {
                     configFile: 'test/conf/unit-test-conf.js',
-                        background: false,
-                        singleRun: true,
-                        autoWatch: false,
-                        reporters: ['progress', 'coverage'],
-                        coverageReporter : {
-                            type : 'html',
-                            dir : '../reports/coverage'
-                        }
+                    background: false,
+                    singleRun: true,
+                    autoWatch: false,
+                    reporters: ['progress', 'coverage'],
+                    coverageReporter : {
+                        type : 'html',
+                        dir : '../reports/coverage'
+                    }
                 }
             },
             e2e: {
@@ -247,7 +247,7 @@ module.exports = function(grunt) {
         plato : {
             options: {
                 jshint : grunt.file.readJSON('.jshintrc'),
-                    title : 'Simple CRUD'
+                title : 'Simple CRUD'
             },
             all : {
                 files: {
@@ -290,8 +290,7 @@ module.exports = function(grunt) {
     grunt.registerTask('package', ['jshint', 'clean', 'useminPrepare', 'copy', 'concat', 'ngmin', 'uglify',  'sass', 'cssmin',  'rev', 'imagemin', 'usemin']);
     grunt.registerTask('ci', ['package', 'connect:test', 'karma:dist_unit:start',  'karma:e2e'  ,'plato']);
     grunt.registerTask('ls', ['availabletasks']);*/
-    
+
     grunt.registerTask('play', ['sass:all', 'copy:playIndex', 'copy:playHtml', 'copy:playJs', 'copy:playCss', 'copy:playBower']);
     grunt.registerTask('dev', ['play', 'watch']);
-
 };

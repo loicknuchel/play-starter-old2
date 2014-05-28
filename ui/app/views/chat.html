@@ -1,0 +1,62 @@
+<div class="blog-header">
+    <h1 class="blog-title">Chat</h1>
+</div>
+<!--
+Sample chat UI :
+http://bootstraphunter.com/themes/preview/jarvisadmin/2.0/
+http://themes.startbootstrap.com/flex-admin-v1.2/
+-->
+<div class="row">
+    <div class="col-md-4 chat" ng-repeat="chat in chats">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <input type="text" name="user" class="username" id="userField" value="John Doe" ng-model="chat.user" />
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-chevron-down"></span>
+                    </button>
+                    <ul class="dropdown-menu slidedown">
+                        <li><a href="#"><span class="fa fa-refresh"></span> Refresh</a></li>
+                        <li><a href="#"><span class="fa fa-check-circle"></span> Available</a></li>
+                        <li><a href="#"><span class="fa fa-minus-circle"></span> Busy</a></li>
+                        <li><a href="#"><span class="fa fa-clock-o"></span> Away</a></li>
+                        <li class="divider"></li>
+                        <li><a ng-click="removeChat(chat)"><span class="fa fa-times"></span> Close</a></li>
+                    </ul>
+                </div>
+                <select class="pull-right" ng-model="roomId" ng-change="changeRoom(chat, roomId)">
+                    <option></option>
+                    <option ng-repeat="room in rooms" value="{{room.id}}" ng-selected="room.id === chat.currentRoom.id">{{room.name}}</option>
+                </select>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li class="clearfix" ng-class="{left: $index%2 === 0, right: $index%2 === 1}" ng-repeat="msg in chat.msgs | limitTo:-10">
+                        <span class="chat-img" ng-class="{'pull-left': $index%2 === 0, 'pull-right': $index%2 === 1}">
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" ng-if="$index%2 === 0" />
+                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" ng-if="$index%2 !== 0" />
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                <strong class="primary-font" ng-class="{'pull-right': $index%2 === 1}">{{msg.user}}</strong>
+                                <small class="text-muted" ng-class="{'pull-right': $index%2 === 0}"><span class="fa fa-clock-o"></span> {{msg.time | fromNow}}</small>
+                            </div>
+                            <p>{{msg.text}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <form ng-submit="submitMsg(chat)">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" ng-disabled="!chat.isOpen()" placeholder="Type your message here..." ng-model="chat.inputText" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" ng-disabled="!chat.isOpen()">Send</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 add-chat" ng-click="createChat()"><div class="panel"></div></div>
+</div>

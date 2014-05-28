@@ -1,12 +1,12 @@
-package crud1.dao
+package crud.dao
 
 import scala.concurrent.Future
-import crud1.models.User
+import crud.models.User
 import reactivemongo.api.DB
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.api.libs.json.Json
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import crud1.models.UserJsonFormat._
+import crud.models.UserJsonFormat._
 import reactivemongo.core.commands.LastError
 import play.api.libs.json.Json.toJsFieldJsValueWrapper
 

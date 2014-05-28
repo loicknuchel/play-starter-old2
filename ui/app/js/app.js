@@ -1,9 +1,6 @@
-angular.module('simple-crud', [
-    'ui.router',
-    'ui.bootstrap']);
+angular.module('simple-crud', ['ui.router', 'ui.bootstrap', 'ngStorage'])
 
-
-angular.module('simple-crud').config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
     "use strict";
     $urlRouterProvider.otherwise('/home');
 
@@ -28,5 +25,10 @@ angular.module('simple-crud').config(function($stateProvider, $urlRouterProvider
         url: '/users2',
         templateUrl: 'assets/views/users.html',
         controller: 'usersCtrl'
+    })
+    .state('root.chat', {
+        url: '/chat',
+        templateUrl: 'assets/views/chat.html',
+        controller: 'chatCtrl'
     });
 });
