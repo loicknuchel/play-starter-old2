@@ -7,10 +7,10 @@ import reactivemongo.api.{ MongoDriver, DB }
 import play.modules.reactivemongo.json.collection.JSONCollection
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import crud1.models.User
+import crud.models.User
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
-import crud1.models.UserJsonFormat._
+import crud.models.UserJsonFormat._
 
 class UserDaoTest extends MongoSuite {
   var mongoProps: MongodProps = null
