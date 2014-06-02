@@ -7,14 +7,11 @@ It uses news tools for productivity such as grunt and bower.
 
 ## Screenshots
 
-Home screen :
-![Home](./pics/App_home.png)
+CRUD :
+![Home](./pics/crud.png)
 
-List users :
-![List](./pics/CRUD_list.png)
-
-Edit a user :
-![Edit](./pics/CRUD_edit.png)
+Chat :
+![List](./pics/chat.png)
 
 ## Setup
 
