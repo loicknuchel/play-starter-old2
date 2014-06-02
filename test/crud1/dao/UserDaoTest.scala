@@ -34,7 +34,7 @@ class UserDaoTest extends MongoSuite {
     initData(expectedUser)
 
     // When
-    val result = Await.result(UserDao.all(), 2 seconds)
+    val result = Await.result(UserDao.findAll(), 2 seconds)
 
     // Then
     result should have size 1
@@ -46,7 +46,7 @@ class UserDaoTest extends MongoSuite {
     val expectedUser = User("id", "name", "bio")
 
     // When
-    Await.ready(UserDao.insert(expectedUser), 2 seconds)
+    Await.ready(UserDao.create(expectedUser), 2 seconds)
 
     // Then
     val result = Await.result(usersCollForTest.find(Json.obj()).cursor[User].collect[Set](), 2 seconds)

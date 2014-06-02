@@ -17,17 +17,17 @@ import play.api.libs.json.JsObject
 object Users extends Controller with MongoController {
   implicit val DB = db
 
-  def all = Action.async { UserDao.all().map { users => Ok(Json.toJson(users)) } }
-
   def create = Action.async(parse.json) { request =>
     val id = BSONObjectID.generate.stringify
     val user = request.body.as[JsObject] ++ Json.obj("id" -> id)
     user.validate[User]
-      .map { UserDao.insert(_).map { lastError => Created(Json.obj("id" -> id, "msg" -> "User Created")) } }
+      .map { UserDao.create(_).map { lastError => Created(Json.obj("id" -> id, "msg" -> "User Created")) } }
       .getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
-  def show(id: String) = Action.async {
+  def findAll = Action.async { UserDao.findAll().map { users => Ok(Json.toJson(users)) } }
+
+  def find(id: String) = Action.async {
     UserDao.find(id).map { mayBeUser =>
       mayBeUser
         .map { user => Ok(Json.toJson(user)) }
@@ -35,11 +35,16 @@ object Users extends Controller with MongoController {
     }
   }
 
+  def update(id: String) = Action.async(parse.json) { request =>
+    val user = request.body.as[User]
+    UserDao.update(id, user)
+      .map { _ => Ok(Json.obj("msg" -> s"User Updated")) }
+      .recover { case _ => InternalServerError }
+  }
+
   def delete(id: String) = Action.async {
     UserDao.delete(id)
       .map { _ => Ok(Json.obj("msg" -> s"User Deleted")) }
       .recover { case _ => InternalServerError }
   }
-
-  def update(id: String) = TODO
 }
