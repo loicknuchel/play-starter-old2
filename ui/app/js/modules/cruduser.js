@@ -1,4 +1,4 @@
-angular.module('simple-crud')
+angular.module('myApp')
 
 .controller('usersCtrl', function($scope, $http, $location, $modal){
     'use strict';

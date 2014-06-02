@@ -1,4 +1,4 @@
-angular.module('simple-crud')
+angular.module('myApp')
 
 .service('roomSrv', function(){
     var rooms = [
