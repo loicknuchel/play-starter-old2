@@ -24,14 +24,9 @@ object ChatApplication extends Controller with MongoController {
   /** Enumeratee for detecting disconnect of SSE stream */
   def connDeathWatch(addr: String): Enumeratee[JsValue, JsValue] = Enumeratee.onIterateeDone { () => println(addr + " - SSE disconnected") }
 
-  /** Controller action serving activity based on room */
-  def chatFeed(room: String) = Action { req =>
-    println(req.remoteAddress + " - SSE connected")
-    Ok.feed(chatOut
-      &> filter(room)
-      &> Concurrent.buffer(50)
-      &> connDeathWatch(req.remoteAddress)
-      &> EventSource()).as("text/event-stream")
+  /** Controller action for GETing chat messages */
+  def getMessagesAsync(room: String) = Action.async {
+    MessageDao.find(Json.obj("room" -> room)).map { message => Ok(Json.toJson(message)) }
   }
 
   /** Controller action for POSTing chat messages */
@@ -46,8 +41,13 @@ object ChatApplication extends Controller with MongoController {
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
-  /** Controller action for GETing chat messages */
-  def getMessagesAsync(room: String) = Action.async {
-    MessageDao.find(Json.obj("room" -> room)).map { message => Ok(Json.toJson(message)) }
+  /** Controller action serving activity based on room */
+  def chatFeed(room: String) = Action { req =>
+    println(req.remoteAddress + " - SSE connected")
+    Ok.feed(chatOut
+      &> filter(room)
+      &> Concurrent.buffer(50)
+      &> connDeathWatch(req.remoteAddress)
+      &> EventSource()).as("text/event-stream")
   }
 }
