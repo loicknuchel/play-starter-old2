@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-md-2">
+        <a ui-sref="root.crud.all" class="btn btn-default"><i class="fa fa-chevron-left"></i> Return</a>
+    </div>
+    <div class="col-md-10">
+        <form class="form-horizontal" role="form" ng-submit="saveEdit()" ng-if="!notFound">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input ng-if="edit" type="text" class="form-control" id="name" placeholder="Name" ng-model="user.name">
+                    <p ng-if="!edit" class="form-control-static">{{user.name}}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">Bio</label>
+                <div class="col-sm-10">
+                    <textarea ng-if="edit" class="form-control" id="bio" placeholder="Bio" ng-model="user.bio" rows="3"></textarea>
+                    <p ng-if="!edit" class="form-control-static">{{user.bio}}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary btn-sm" ng-if="!edit" ng-click="startEdit()">Edit</button>
+                    <button class="btn btn-danger btn-sm" ng-if="!edit" ng-click="delete()">Delete</button>
+                    <button class="btn btn-warning" ng-if="edit" ng-click="cancelEdit()">Cancel</button>
+                    <button class="btn btn-success" ng-if="edit" ng-click="saveEdit()">Save</button>
+                </div>
+            </div>
+        </form>
+        <div ng-if="notFound">
+            User "{{notFound}}" does not exist !
+        </div>
+    </div>
+</div>

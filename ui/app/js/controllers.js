@@ -1,12 +1,7 @@
 angular.module('myApp')
 
-.controller('rootCtrl', function($scope, $location){
+.controller('rootCtrl', function($scope){
     'use strict';
-
-    $scope.isActive = function (viewLocation) {
-        var active = (viewLocation === $location.path());
-        return active;
-    };
 })
 
 .controller('homeCtrl', function($scope){

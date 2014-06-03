@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-6">
+        <a ui-sref="root.crud.create" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add</a>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr><th></th><th>name</th><th>bio</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in allUsers | filter:search" ng-class="{info: elt.isSelected}">
+                    <td><a class="btn btn-info" ui-sref="root.crud.details({id: user.id})"><i class="fa fa-search"></i></a></td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.bio}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
