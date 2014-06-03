@@ -3,7 +3,7 @@ angular.module('myApp')
 .controller('crudCtrl', function($scope, $state, $stateParams, Restangular){
     var crudId = $stateParams.crudId;
     $scope.userApis = [
-        {id: 'default', name: 'Default', url: 'api/users1'},
+        {id: 'default', name: 'Default (with case class model)', url: 'api/users1'},
         {id: 'json', name: 'JSON coast-to-coast', url: 'api/users2'}
     ];
     $scope.userApi = _.find($scope.userApis, {id: crudId});

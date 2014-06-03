@@ -16,16 +16,6 @@ angular.module('myApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'restangular'
         templateUrl: 'assets/views/home.html',
         controller: 'homeCtrl'
     })
-    .state('root.users1', {
-        url: '/users1',
-        templateUrl: 'assets/views/users.html',
-        controller: 'usersCtrl'
-    })
-    .state('root.users2', {
-        url: '/users2',
-        templateUrl: 'assets/views/users.html',
-        controller: 'usersCtrl'
-    })
     .state('root.crud', {
         abstract: true,
         url: '/crud/:crudId',
