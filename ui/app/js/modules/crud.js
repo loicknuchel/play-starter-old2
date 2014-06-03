@@ -1,13 +1,23 @@
 angular.module('myApp')
 
-.controller('crudCtrl', function($scope, Restangular){
-    $scope.baseUrl = 'api/users1';
+.controller('crudCtrl', function($scope, $state, $stateParams, Restangular){
+    var crudId = $stateParams.crudId;
+    $scope.userApis = [
+        {id: 'default', name: 'Default', url: 'api/users1'},
+        {id: 'json', name: 'JSON coast-to-coast', url: 'api/users2'}
+    ];
+    $scope.userApi = _.find($scope.userApis, {id: crudId});
+    if(!$scope.userApi){$scope.userApi = $scope.userApis[0];}
+    
+    $scope.changeApi = function(){
+        $state.go($state.current, {crudId: $scope.userApi.id});
+    };
 })
 
 .controller('crudAllCtrl', function($scope, $state, Restangular){
     $scope.allUsers = [];
 
-    Restangular.all($scope.baseUrl).getList().then(function(users) {
+    Restangular.all($scope.userApi.url).getList().then(function(users) {
         $scope.allUsers = users;
     });
 })
@@ -19,7 +29,7 @@ angular.module('myApp')
     };
 
     $scope.createUser = function(){
-        Restangular.all($scope.baseUrl).post($scope.user).then(function(data){
+        Restangular.all($scope.userApi.url).post($scope.user).then(function(data){
             $state.go('root.crud.all');
         });
     };
@@ -32,7 +42,7 @@ angular.module('myApp')
     $scope.edit = false;
     $scope.notFound = false;
 
-    Restangular.one($scope.baseUrl, id).get().then(function(user){
+    Restangular.one($scope.userApi.url, id).get().then(function(user){
         syncUser = user;
         $scope.user = Restangular.copy(syncUser);
     }, function(err){

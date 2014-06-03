@@ -28,7 +28,7 @@ angular.module('myApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'restangular'
     })
     .state('root.crud', {
         abstract: true,
-        url: '/crud',
+        url: '/crud/:crudId',
         templateUrl: 'assets/views/crud/main.html',
         controller: 'crudCtrl'
     })
