@@ -3,7 +3,7 @@ import sbt.Keys._
 
 object ApplicationBuild extends Build {
 
-  val appName         = "play-showcase"
+  val appName         = "play-framework-showcase"
   val appVersion      = "0.1-SNAPSHOT"
 
   val appDependencies = Seq(

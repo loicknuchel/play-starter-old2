@@ -1,3 +1,7 @@
+TODO : 
+	- rename index.html to index-spa.html
+	- create crud and forms with play templates
+
 see : http://stackoverflow.com/questions/17068744/scala-paint-example-hub-is-deprecated-use-broadcast
 	http://www.playframework.com/documentation/2.2.3/api/scala/index.html#play.api.libs.iteratee.Concurrent$
 	https://github.com/playframework/playframework/tree/master/samples/scala/websocket-chat
