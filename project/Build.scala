@@ -3,7 +3,7 @@ import sbt.Keys._
 
 object ApplicationBuild extends Build {
 
-  val appName         = "simple-crud-scala-play-mongo-angular"
+  val appName         = "play-showcase"
   val appVersion      = "0.1-SNAPSHOT"
 
   val appDependencies = Seq(
