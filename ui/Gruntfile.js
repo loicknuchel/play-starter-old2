@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         assetsDir: 'app',
         distDir: 'dist',
         playDistDir: '../public/dist',
-        playIndex: '../app/views/index.scala.html',
+        playIndex: '../app/views/indexSpa.scala.html',
 
         availabletasks: {
             tasks: {

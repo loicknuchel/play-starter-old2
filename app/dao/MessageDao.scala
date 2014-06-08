@@ -1,15 +1,15 @@
-package chatsse.dao
+package dao
 
+import models.Message
+import models.MessageJsonFormat._
 import scala.concurrent.Future
-import chatsse.models.Message
-import reactivemongo.api.DB
-import play.modules.reactivemongo.json.collection.JSONCollection
+import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import chatsse.models.MessageJsonFormat._
-import reactivemongo.core.commands.LastError
 import play.api.libs.json.Json.toJsFieldJsValueWrapper
 import play.api.libs.json.JsObject
+import play.modules.reactivemongo.json.collection.JSONCollection
+import reactivemongo.api.DB
+import reactivemongo.core.commands.LastError
 
 object MessageDao {
   private val MESSAGE_COLECTION_NAME = "messages"

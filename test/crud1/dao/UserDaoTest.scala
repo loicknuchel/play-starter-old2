@@ -1,13 +1,13 @@
 package crud1.dao
 
-import crud.dao.UserDao;
+import dao.UserDao;
 import crud1.utils.MongoSuite
 import com.github.simplyscala.MongodProps
 import reactivemongo.api.{ MongoDriver, DB }
 import play.modules.reactivemongo.json.collection.JSONCollection
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import crud.models.User
+import models.User
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
 import crud.models.UserJsonFormat._

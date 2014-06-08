@@ -1,18 +1,19 @@
-package chatsse.controllers
+package controllers.api
 
+import models.Message
+import models.MessageJsonFormat._
+import dao.MessageDao
+import scala.concurrent.Future
 import play.api.mvc._
 import play.api.libs.iteratee.{ Concurrent, Enumeratee }
 import play.api.libs.EventSource
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
-import reactivemongo.bson.BSONObjectID
-import chatsse.models.Message
-import chatsse.models.MessageJsonFormat._
-import chatsse.dao.MessageDao
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
 import play.modules.reactivemongo.MongoController
-import scala.concurrent.Future
+import reactivemongo.bson.BSONObjectID
 
-object ChatApplication extends Controller with MongoController {
+object ChatSSE extends Controller with MongoController {
   implicit val DB = db
 
   /** Central hub for distributing chat messages */

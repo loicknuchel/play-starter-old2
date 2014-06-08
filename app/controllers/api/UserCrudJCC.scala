@@ -1,4 +1,4 @@
-package crudJsonCoastToCoast.controllers
+package controllers.api
 
 import play.api._
 import play.api.mvc._
@@ -20,7 +20,10 @@ import reactivemongo.bson.BSONDocument
 import play.api.libs.json.Json.toJsFieldJsValueWrapper
 import reactivemongo.bson.Producer.nameValue2Producer
 
-object Users extends Controller {
+/*
+ * User CRUD with Json Coast-to-Coast technique
+ */
+object UserCrudJCC extends Controller {
   val collection = ReactiveMongoPlugin.db.collection[JSONCollection]("users")
 
   /** Full User validator */
@@ -48,7 +51,7 @@ object Users extends Controller {
   /** Converts JSON into Mongo update selector by just copying whole object in $set field */
   val toMongoUpdate = (__ \ '$set).json.copyFrom(__.json.pick)
 
-  def all = Action.async {
+  def findAll = Action.async {
     val cursor = collection.find(BSONDocument(), BSONDocument()).cursor[JsValue]
     val futureList = cursor.collect[List]()
     futureList
@@ -68,7 +71,7 @@ object Users extends Controller {
     }
   }
 
-  def show(id: String) = Action.async {
+  def find(id: String) = Action.async {
     collection.find(BSONDocument("id" -> id)).cursor[JsValue].headOption.map {
       case None => NotFound(Json.obj("msg" -> s"User with ID $id not found"))
       case Some(p) =>

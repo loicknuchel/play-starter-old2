@@ -1,16 +1,14 @@
-package crud.dao
+package dao
 
+import models.User
+import models.UserJsonFormat._
 import scala.concurrent.Future
-import crud.models.User
-import reactivemongo.api.DB
-import play.modules.reactivemongo.json.collection.JSONCollection
-import play.api.libs.json.Json
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import crud.models.UserJsonFormat._
-import reactivemongo.core.commands.LastError
-import play.api.libs.json.Json.toJsFieldJsValueWrapper
-import play.api.libs.json.JsObject
+import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json._
+import play.api.libs.json.Json.toJsFieldJsValueWrapper
+import play.modules.reactivemongo.json.collection.JSONCollection
+import reactivemongo.api.DB
+import reactivemongo.core.commands.LastError
 
 object UserDao {
   // Take a look at https://gist.github.com/almeidap/5685801

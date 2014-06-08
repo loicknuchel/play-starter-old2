@@ -3,7 +3,7 @@ package crud1.utils
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, Matchers, FunSuite}
 import com.github.simplyscala.MongoEmbedDatabase
 import scala.concurrent.Await
-import crud.models.User
+import models.User
 import crud.models.UserJsonFormat.userFormat
 import play.modules.reactivemongo.json.collection.JSONCollection
 import scala.concurrent.ExecutionContext.Implicits.global
