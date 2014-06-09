@@ -1,0 +1,23 @@
+@(field: Field, options: Seq[(String,String)], label: String = "", placeholder: String = "", help: String = "", horizontal: Boolean = false, inline: Boolean = false, inputOnly: Boolean = false)
+
+@fieldInput(field: Field, options: Seq[(String, String)], values: Set[String], placeholder: String) = {
+	<select class="form-control" id="@field.id" name="@(field.name + "[]")" placeholder="@placeholder" multiple="multiple">
+		@for((value, label) <- options) {
+			<option value="@value" @if(values.contains(value)) {selected}>@label</option>
+		}
+    </select>
+}
+
+@{defining(if(label.length > 0) label else field.name) { _label =>
+	defining(if(placeholder.length > 0) placeholder else _label ) { _placeholder =>
+		defining(if(field.indexes.isEmpty) field.value.toSet else field.indexes.map( i => field("[%s]".format(i)).value ).flatten.toSet){ values =>
+			import layout._
+			val input = fieldInput(field, options, values, _placeholder)
+			
+			if(inputOnly) input
+			else if(horizontal && !inline) bs3FieldHorizontal(field, input, label, help)
+			else if(inline) bs3FieldInline(field, input, label, help)
+			else bs3Field(field, input, label, help)
+		}
+	}
+}}

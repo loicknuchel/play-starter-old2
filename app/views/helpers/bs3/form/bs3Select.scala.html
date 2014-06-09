@@ -1,0 +1,24 @@
+@(field: Field, options: Seq[(String,String)], defaultOption: String = "", label: String = "", placeholder: String = "", help: String = "", horizontal: Boolean = false, inline: Boolean = false, inputOnly: Boolean = false)
+
+@fieldInput(field: Field, options: Seq[(String,String)], defaultOption: String, placeholder: String) = {
+	<select class="form-control" id="@field.id" name="@field.name" placeholder="@placeholder">
+		@if(defaultOption.length > 0){
+			<option class="blank" value="">@defaultOption</option>
+		}
+		@for((value, label) <- options) {
+			<option value="@value" @if(field.value == Some(value)) {selected}>@label</option>
+		}
+	</select>
+}
+
+@{defining(if(label.length > 0) label else field.name) { _label =>
+	defining(if(placeholder.length > 0) placeholder else _label ) { _placeholder =>
+		import layout._
+		val input = fieldInput(field, options, defaultOption, _placeholder)
+		
+		if(inputOnly) input
+		else if(horizontal && !inline) bs3FieldHorizontal(field, input, label, help)
+		else if(inline) bs3FieldInline(field, input, label, help)
+		else bs3Field(field, input, label, help)
+	}
+}}

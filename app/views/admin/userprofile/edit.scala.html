@@ -1,0 +1,22 @@
+@(pageTitle: String, id: Option[String], userProfileForm: Form[models.UserProfile])
+
+@import helper._
+@import helpers.bs3.form._
+
+@admin.main(pageTitle, "userprofile") {
+	<div class="row">
+		<div class="col-md-12 card-black">
+			<h2>@if(!id.isDefined) { Create } else { Edit } user profile</h2>
+			@helper.form(if(!id.isDefined) routes.UserProfileCrud.create else routes.UserProfileCrud.update(id.get), 'class -> "form-horizontal") {
+				@bs3Hidden(userProfileForm("id"))
+				@bs3Text(userProfileForm("name"), label="Name", horizontal=true)
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+			            <a href="@routes.UserProfileCrud.index" class="btn btn-default">@if(!id.isDefined) { Cancel } else { Return }</a>
+			            <button type="submit" class="btn btn-primary">@if(!id.isDefined) { Create } else { Update } profile</button>
+					</div>
+		        </div>
+			}
+		</div>
+	</div>
+}

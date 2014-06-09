@@ -1,0 +1,20 @@
+@(field: Field, options: Seq[(String, String)], label: String = "", help: String = "", horizontal: Boolean = false, inline: Boolean = false, inputOnly: Boolean = false)
+
+@fieldInput(field: Field, options: Seq[(String, String)]) = {
+	@for((value, label) <- options) {
+	    <label class="radio-inline">
+	      <input type="radio" name="@field.name" id="@value" value="@value" @if(field.value == Some(value)) {checked} />
+	      @label
+	    </label>
+    }
+}
+
+@{defining(if(label.length > 0) label else field.name) { _label =>
+	import layout._
+	val input = fieldInput(field, options)
+	
+	if(inputOnly) input
+	else if(horizontal && !inline) bs3FieldHorizontal(field, input, label, help)
+	else if(inline) bs3FieldInline(field, input, label, help)
+	else bs3Field(field, input, label, help)
+}}

@@ -1,0 +1,39 @@
+@(pageTitle: String, profiles: List[models.UserProfile])
+
+@admin.main(pageTitle, "userprofile") {
+	<div class="row">
+		<div class="col-md-12">
+			<h2>User profiles</h2>
+			<a class="btn btn-success" href="@routes.UserProfileCrud.showCreationForm">Create</a>
+			@if(profiles.isEmpty) {
+				<p>No user profile yet.</p>
+			} else {
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th class="hidden">Id</th>
+							<th>Profile</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@for((profile, index) <- profiles.zipWithIndex) {
+							<tr>
+								<td>@{index+1}</td>
+								<td class="hidden">@profile.id</td>
+								<td>@profile.name</td>
+								<td>
+									<a href="@routes.UserProfileCrud.showEditForm(profile.id)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+									@helper.form(routes.UserProfileCrud.delete(profile.id), 'class -> "inline-form") {
+					            		<button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+					            	}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+		</div>
+	</div>
+}

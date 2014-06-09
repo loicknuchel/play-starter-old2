@@ -1,0 +1,9 @@
+@(field: Field, help: String)
+
+@if(help.length > 0) { <span class="help-block">@help</span> }
+@if(field.hasErrors && field.errors.length > 0) {
+	<span class="help-block">@{field.errors.map { error => Messages(error.message, error.args: _*) }}</span>
+}
+@if(!field.hasErrors && field.constraints.length > 0) {
+	<span class="help-block">@{field.constraints.map { constraint => Messages(constraint._1, constraint._2) }}</span>
+}

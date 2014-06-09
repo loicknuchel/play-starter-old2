@@ -8,38 +8,38 @@ angular.module('myApp', ['ui.router', 'ui.bootstrap', 'ngStorage', 'restangular'
     .state('root', {
         abstract: true,
         url: '',
-        templateUrl: 'assets/views/root.html',
+        templateUrl: 'assets/dist/views/root.html',
         controller: 'rootCtrl'
     })
     .state('root.home', {
         url: '/home',
-        templateUrl: 'assets/views/home.html',
+        templateUrl: 'assets/dist/views/home.html',
         controller: 'homeCtrl'
     })
     .state('root.crud', {
         abstract: true,
         url: '/crud/:crudId',
-        templateUrl: 'assets/views/crud/main.html',
+        templateUrl: 'assets/dist/views/crud/main.html',
         controller: 'crudCtrl'
     })
     .state('root.crud.all', {
         url: '/all',
-        templateUrl: 'assets/views/crud/all.html',
+        templateUrl: 'assets/dist/views/crud/all.html',
         controller: 'crudAllCtrl'
     })
     .state('root.crud.create', {
         url: '/create',
-        templateUrl: 'assets/views/crud/create.html',
+        templateUrl: 'assets/dist/views/crud/create.html',
         controller: 'crudCreateCtrl'
     })
     .state('root.crud.details', {
         url: '/:id',
-        templateUrl: 'assets/views/crud/details.html',
+        templateUrl: 'assets/dist/views/crud/details.html',
         controller: 'crudDetailsCtrl'
     })
     .state('root.chat', {
         url: '/chat',
-        templateUrl: 'assets/views/chat.html',
+        templateUrl: 'assets/dist/views/chat.html',
         controller: 'chatCtrl'
     });
 })

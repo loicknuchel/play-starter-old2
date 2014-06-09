@@ -3,23 +3,32 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.ApplicationSpa.index
+GET      /                               controllers.ApplicationSpa.index
 
-GET     /api/users1                 controllers.api.UserCrud.findAll
-POST    /api/users1                 controllers.api.UserCrud.create
-GET     /api/users1/:id             controllers.api.UserCrud.find(id: String)
-PUT     /api/users1/:id             controllers.api.UserCrud.update(id: String)
-DELETE  /api/users1/:id             controllers.api.UserCrud.delete(id: String)
+GET      /admin                          controllers.Admin.index
 
-GET     /api/users2                 controllers.api.UserCrudJCC.findAll
-POST    /api/users2                 controllers.api.UserCrudJCC.create
-GET     /api/users2/:id             controllers.api.UserCrudJCC.find(id: String)
-PUT     /api/users2/:id             controllers.api.UserCrudJCC.update(id: String)
-DELETE  /api/users2/:id             controllers.api.UserCrudJCC.delete(id: String)
+GET      /admin/userprofile              controllers.UserProfileCrud.index
+GET      /admin/userprofile/new          controllers.UserProfileCrud.showCreationForm
+POST     /admin/userprofile/new          controllers.UserProfileCrud.create
+GET      /admin/userprofile/:id          controllers.UserProfileCrud.showEditForm(id: String)
+POST     /admin/userprofile/:id          controllers.UserProfileCrud.update(id: String)
+POST     /admin/userprofile/:id/delete   controllers.UserProfileCrud.delete(id: String)
 
-GET     /api/chat/:room             controllers.api.ChatSSE.getMessagesAsync(room: String)
-POST    /api/chat/:room/post        controllers.api.ChatSSE.postMessageAsync(room: String)
-GET     /api/chat/:room/feed        controllers.api.ChatSSE.chatFeed(room: String)
+GET      /api/users1                     controllers.api.UserCrud.findAll
+POST     /api/users1                     controllers.api.UserCrud.create
+GET      /api/users1/:id                 controllers.api.UserCrud.find(id: String)
+PUT      /api/users1/:id                 controllers.api.UserCrud.update(id: String)
+DELETE   /api/users1/:id                 controllers.api.UserCrud.delete(id: String)
+
+GET      /api/users2                     controllers.api.UserCrudJCC.findAll
+POST     /api/users2                     controllers.api.UserCrudJCC.create
+GET      /api/users2/:id                 controllers.api.UserCrudJCC.find(id: String)
+PUT      /api/users2/:id                 controllers.api.UserCrudJCC.update(id: String)
+DELETE   /api/users2/:id                 controllers.api.UserCrudJCC.delete(id: String)
+
+GET      /api/chat/:room                 controllers.api.ChatSSE.getMessagesAsync(room: String)
+POST     /api/chat/:room/post            controllers.api.ChatSSE.postMessageAsync(room: String)
+GET      /api/chat/:room/feed            controllers.api.ChatSSE.chatFeed(room: String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public/dist", file)
+GET      /assets/*file                   controllers.Assets.at(path="/public", file)
