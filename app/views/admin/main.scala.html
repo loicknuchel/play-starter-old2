@@ -25,12 +25,18 @@
           </button>
           <a class="navbar-brand" href="#">Play showcase</a>
         </div>
+        <div class="navbar-collapse collapse pull-right">
+          <ul class="nav navbar-nav">
+            <li><a href="/">SPA App</a></li>
+          </ul>
+        </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li @if(menu == "home"){class="active"}><a href="@routes.Admin.index">Home</a></li>
-            <li @if(menu == "userprofile"){class="active"}><a href="@routes.UserProfileCrud.index">User profile</a></li>
+            <li @if(menu == "userprofile"){class="active"}><a href="@routes.UserProfileCrud.index">User profiles</a></li>
+            <li @if(menu == "user"){class="active"}><a href="@routes.UserCrud.index">Users</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </div>
 

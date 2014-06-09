@@ -1,5 +1,48 @@
+/* Bootstrap integration */
+
+.form-horizontal .form-group .form-group {
+	margin-bottom: 0px;
+}
+.form-horizontal .form-inline .form-group {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+.form-inline .form-group {
+	vertical-align: top;
+}
+.form-inline .form-group .form-control.text {
+	border: none;
+	padding-left: 0px;
+	padding-right: 0px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+input[type="number"] {
+	max-width: 77px;
+}
+input[type="number"].num-1 { max-width: 48px; }
+input[type="number"].num-2 { max-width: 56px; }
+input[type="number"].num-3 { max-width: 64px; }
+input[type="number"].num-4 { max-width: 72px; }
+input[type="number"].num-5 { max-width: 80px; }
+input[type="number"].num-6 { max-width: 88px; }
+input[type="number"].num-7 { max-width: 96px; }
+input[type="number"].num-8 { max-width: 104px; }
+input[type="number"].num-9 { max-width: 112px; }
+
 /* App CSS */
 
 .inline-form {
 	display: inline;
+}
+
+.field-template {
+	display: none;
+}
+
+.card-black {
+	border-radius:3px;
+	color:#545454;
+	border: 1px solid #8c8c8c;
+	border-top: 6px solid #1d1717;
 }

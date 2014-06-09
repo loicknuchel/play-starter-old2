@@ -1,5 +1,8 @@
 <div class="blog-masthead">
     <div class="container">
+        <nav class="blog-nav pull-right">
+            <a class="blog-nav-item" href="/admin">Play App</a>
+        </nav>
         <nav class="blog-nav">
             <a class="blog-nav-item" ng-class="{active:isActive('/home')}" ui-sref="root.home">Home</a>
             <a class="blog-nav-item" ng-class="{active:isActive('/crud.*')}" ui-sref="root.crud.all({crudId: 'default'})">CRUD</a>

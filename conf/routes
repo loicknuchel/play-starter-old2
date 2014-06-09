@@ -14,6 +14,13 @@ GET      /admin/userprofile/:id          controllers.UserProfileCrud.showEditFor
 POST     /admin/userprofile/:id          controllers.UserProfileCrud.update(id: String)
 POST     /admin/userprofile/:id/delete   controllers.UserProfileCrud.delete(id: String)
 
+GET      /admin/users                    controllers.UserCrud.index
+GET      /admin/users/new                controllers.UserCrud.showCreationForm
+POST     /admin/users/new                controllers.UserCrud.create
+GET      /admin/users/:id                controllers.UserCrud.showEditForm(id: String)
+POST     /admin/users/:id                controllers.UserCrud.update(id: String)
+POST     /admin/users/:id/delete         controllers.UserCrud.delete(id: String)
+
 GET      /api/users1                     controllers.api.UserCrud.findAll
 POST     /api/users1                     controllers.api.UserCrud.create
 GET      /api/users1/:id                 controllers.api.UserCrud.find(id: String)

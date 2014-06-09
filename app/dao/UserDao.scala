@@ -11,7 +11,6 @@ import reactivemongo.api.DB
 import reactivemongo.core.commands.LastError
 
 object UserDao {
-  // Take a look at https://gist.github.com/almeidap/5685801
   private val USER_COLECTION_NAME = "users"
   private def collection()(implicit db: DB): JSONCollection = db.collection[JSONCollection](USER_COLECTION_NAME)
 
