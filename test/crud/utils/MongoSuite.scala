@@ -1,10 +1,10 @@
-package crud1.utils
+package crud.utils
 
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, Matchers, FunSuite}
 import com.github.simplyscala.MongoEmbedDatabase
 import scala.concurrent.Await
 import models.User
-import crud.models.UserJsonFormat.userFormat
+import models.UserFormat._
 import play.modules.reactivemongo.json.collection.JSONCollection
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
@@ -13,8 +13,7 @@ trait MongoSuite extends FunSuite with Matchers with BeforeAndAfterAll with Befo
 with MongoEmbedDatabase with DatabaseUtils
 
 trait DatabaseUtils {
-  import crud.models.UserJsonFormat._
-  import crud.models.User
+  import models.User
   import scala.concurrent.ExecutionContext.Implicits.global
   import scala.concurrent.duration._
   import play.modules.reactivemongo.json.collection.JSONCollection

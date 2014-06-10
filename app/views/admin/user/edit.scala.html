@@ -1,4 +1,4 @@
-@(pageTitle: String, id: Option[String], userForm: Form[models.User], profiles: Seq[(String, String)])
+@(pageTitle: String, id: Option[String], userForm: Form[models.UserForm], profiles: Seq[(String, String)])
 
 @import helper._
 @import helpers.bs3.form._
@@ -8,12 +8,13 @@
 		<div class="col-md-12 card-black">
 			<h2>@if(!id.isDefined) { Create } else { Edit } user profile</h2>
 			@helper.form(if(!id.isDefined) routes.UserCrud.create else routes.UserCrud.update(id.get), 'class -> "form-horizontal") {
+				@bs3FormError(userForm.globalError, horizontal=true)
 				@bs3Hidden(userForm("id"))
 				@bs3Text(userForm("name"), label="Name", horizontal=true)
 				
-				@bs3Text(userForm("profile")("id"), label="Profile Id", horizontal=true)
-				@bs3Text(userForm("profile")("name"), label="Profile Name", horizontal=true)
-				@*@bs3Select(userForm("profile")("id"), label="Profile", options=profiles, horizontal=true)*@
+				@*@bs3Text(userForm("profile")("id"), label="Profile Id", horizontal=true)
+				@bs3Text(userForm("profile")("name"), label="Profile Name", horizontal=true)*@
+				@bs3Select(userForm("profileId"), label="Profile", options=profiles, horizontal=true)
 				
 				@bs3Text(userForm("mail"), label="Mail", horizontal=true)
 				@bs3Password(userForm("password"), label="Password", horizontal=true)

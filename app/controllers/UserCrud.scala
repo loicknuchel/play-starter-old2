@@ -1,6 +1,7 @@
 package controllers
 
 import models.User
+import models.UserForm
 import models.UserProfile
 import dao.UserDao
 import dao.UserProfileDao
@@ -15,7 +16,7 @@ object UserCrud extends Controller with MongoController {
   implicit val DB = db
 
   val pageTitle = "Users admin"
-  val userForm: Form[User] = Form(User.mapForm)
+  val userForm: Form[UserForm] = Form(UserForm.mapForm)
 
   def options(users: Set[UserProfile]): Seq[(String, String)] = users.map(user => (user.id, user.name)).toSeq
 
@@ -36,7 +37,14 @@ object UserCrud extends Controller with MongoController {
       formWithErrors => UserProfileDao.findAll().map { profiles =>
         BadRequest(views.html.admin.user.edit(pageTitle, None, formWithErrors, options(profiles)))
       },
-      user => UserDao.create(user).map { lastError => Redirect(routes.UserCrud.index()) })
+      user => {
+        UserProfileDao.find(user.profileId) flatMap {
+          case None => UserProfileDao.findAll().map { profiles =>
+            BadRequest(views.html.admin.user.edit(pageTitle, None, userForm.fill(user).withGlobalError("Unable to find profile "+user.profileId), options(profiles)))
+          }
+          case Some(profile) => UserDao.create(user.withProfile(profile)).map { lastError => Redirect(routes.UserCrud.index()) }
+        }
+      })
   }
 
   def showEditForm(id: String) = Action.async {
@@ -48,7 +56,7 @@ object UserCrud extends Controller with MongoController {
     futureResults.map {
       case (mayBeUser, profiles) =>
         mayBeUser.map { user =>
-          Ok(views.html.admin.user.edit(pageTitle, Some(id), userForm.fill(user), options(profiles)))
+          Ok(views.html.admin.user.edit(pageTitle, Some(id), userForm.fill(user.toForm), options(profiles)))
         }.getOrElse(Redirect(routes.UserCrud.index()))
     }
   }
@@ -59,9 +67,14 @@ object UserCrud extends Controller with MongoController {
         BadRequest(views.html.admin.user.edit(pageTitle, None, formWithErrors, options(profiles)))
       },
       user => {
-        UserDao.update(id, user)
-          .map { _ => Redirect(routes.UserCrud.index()) }
-          .recover { case _ => InternalServerError }
+        UserProfileDao.find(user.profileId) flatMap {
+          case None => UserProfileDao.findAll().map { profiles =>
+            BadRequest(views.html.admin.user.edit(pageTitle, None, userForm.fill(user).withGlobalError("Unable to find profile "+user.profileId), options(profiles)))
+          }
+          case Some(profile) => UserDao.update(id, user.withProfile(profile))
+            .map { _ => Redirect(routes.UserCrud.index()) }
+            .recover { case _ => InternalServerError }
+        }
       })
   }
 

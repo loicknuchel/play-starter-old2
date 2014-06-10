@@ -1,7 +1,8 @@
-package crud1.dao
+package crud.dao
 
-import dao.UserDao;
-import crud1.utils.MongoSuite
+import models.UserFormat._
+import dao.UserDao
+import crud.utils.MongoSuite
 import com.github.simplyscala.MongodProps
 import reactivemongo.api.{ MongoDriver, DB }
 import play.modules.reactivemongo.json.collection.JSONCollection
@@ -10,7 +11,8 @@ import scala.concurrent.duration._
 import models.User
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
-import crud.models.UserJsonFormat._
+import models.UserProfile
+
 
 class UserDaoTest extends MongoSuite {
   var mongoProps: MongodProps = null
@@ -29,7 +31,7 @@ class UserDaoTest extends MongoSuite {
 
   test("should find all user") {
     // Given
-    val expectedUser = User("id", "name", "bio")
+    val expectedUser = User("id", "name", UserProfile("id", "profile"), "mail", "password")
 
     initData(expectedUser)
 
@@ -43,7 +45,7 @@ class UserDaoTest extends MongoSuite {
 
   test("should insert user") {
     // Given
-    val expectedUser = User("id", "name", "bio")
+    val expectedUser = User("id", "name", UserProfile("id", "profile"), "mail", "password")
 
     // When
     Await.ready(UserDao.create(expectedUser), 2 seconds)
@@ -55,8 +57,8 @@ class UserDaoTest extends MongoSuite {
 
   test("should find User by its id") {
     // Given
-    val expectedUser = User("expected_id", "expectedUSer", "bio")
-    val unexpectedUser = User("unexpected_id", "unexpectedUSer", "bio")
+    val expectedUser = User("expected_id", "expectedUSer", UserProfile("id", "profile"), "mail", "password")
+    val unexpectedUser = User("unexpected_id", "unexpectedUSer", UserProfile("id", "profile"), "mail", "password")
 
     initData(expectedUser, unexpectedUser)
 
@@ -69,8 +71,8 @@ class UserDaoTest extends MongoSuite {
 
   test("should delete User from its id") {
     // Given
-    val expectedUser = User("expected_id", "expectedUSer", "bio")
-    val unexpectedUser = User("unexpected_id", "unexpectedUSer", "bio")
+    val expectedUser = User("expected_id", "expectedUSer", UserProfile("id", "profile"), "mail", "password")
+    val unexpectedUser = User("unexpected_id", "unexpectedUSer", UserProfile("id", "profile"), "mail", "password")
 
     initData(expectedUser, unexpectedUser)
 

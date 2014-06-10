@@ -1,0 +1,26 @@
+@(globalError: Option[play.api.data.FormError], horizontal: Boolean = false, errorOnly: Boolean = false)
+
+@errorLayout(globalError: Option[play.api.data.FormError]) = {
+	<span class="help-block">@{globalError.map { error => Messages(error.message, error.args: _*) }}</span>
+}
+@horizontalError(globalError: Option[play.api.data.FormError]) = {
+	<div class="form-group has-error">
+		<div class="col-sm-offset-2 col-sm-10">
+			@errorLayout(globalError)
+		</div>
+	</div>
+}
+
+@inlineError(globalError: Option[play.api.data.FormError]) = {
+	<div class="form-group has-error">
+		@errorLayout(globalError)
+	</div>
+}
+
+@{
+	if(globalError.isDefined) {
+		if(errorOnly) errorLayout(globalError)
+		else if(horizontal) horizontalError(globalError)
+		else inlineError(globalError)
+	}
+}
